@@ -1,0 +1,43 @@
+'use strict';
+
+/* http://docs.angularjs.org/guide/dev_guide.e2e-testing */
+
+describe('my app', function() {
+
+  beforeEach(function() {
+    browser().navigateTo('#/');
+  });
+
+
+  it('should automatically redirect to /send when loggedIn', function() {
+    expect(browser().location().url()).toBe("#/send");
+  });
+
+
+  describe('send', function() {
+
+    beforeEach(function() {
+      browser().navigateTo('#/send');
+    });
+
+
+    it('should render sned when user navigates to /view1', function() {
+      // expect(element('[ng-view] p:first').text()).toMatch(/partial for view 1/);
+    });
+
+  });
+
+
+  describe('history', function() {
+
+    beforeEach(function() {
+      browser().navigateTo('#/view2');
+    });
+
+
+    it('should render view2 when user navigates to /view2', function() {
+      expect(element('html').text()).toMatch(/send/);
+    });
+
+  });
+});

@@ -1,0 +1,22 @@
+{
+  "name": "tester",
+  "version": "0.0.0",
+  "authors": [
+    "locksley <scottli_010@hotmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "1.2.x",
+    "angular-route": "1.2.x",
+    "bootswatch": "3.0.x",
+    "jquery": "2.0.x",
+    "spin.js": "*"
+  }
+}

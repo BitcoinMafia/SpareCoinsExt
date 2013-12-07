@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="spApp" ng-csp ng-cloak>
+<head>
+  <meta charset="utf-8" />
+  <title>SpareCoins</title>
+
+  <!-- CSS Libraries -->
+  <link rel="stylesheet" href="lib/bootswatch/readable/bootstrap.css" />
+  <link rel="stylesheet" href="lib/font-awesome/css/font-awesome.css">
+
+  <!-- Custom -->
+  <link rel="stylesheet" href="css/ng-csp.css" />
+  <link rel="stylesheet" href="css/app.css" />
+
+</head>
+<body class='container-fixed' keypress-routes>
+
+  <div ng-view>
+  </div>
+
+  <!-- JS Libraries -->
+  <script src="lib/jquery/jquery.js"></script>
+  <script src="lib/bootstrap/dist/js/bootstrap.js"></script>
+  <script src="lib/spin.js/spin.js"></script>
+
+  <!-- AngularJS -->
+  <script src="lib/angular/angular.js"></script>
+  <script src="lib/angular-route/angular-route.js"></script>
+
+  <script src="js/app.js"></script>
+
+  <script src="js/controllers/send.js"></script>
+  <script src="js/controllers/receive.js"></script>
+  <script src="js/controllers/history.js"></script>
+  <script src="js/controllers/all_addresses.js"></script>
+  <script src="js/controllers/login.js"></script>
+  <script src="js/controllers/password.js"></script>
+
+  <script src="js/presenters/transaction.js"></script>
+  <script src="js/presenters/all_addresses.js"></script>
+
+  <script src="js/directives/nav.js"></script>
+  <script src="js/directives/validation.js"></script>
+  <script src="js/directives/keypress.js"></script>
+  <script src="js/directives/selected.js"></script>
+  <script src="js/directives/timeago.js"></script>
+  <script src="js/directives/spinner.js"></script>
+
+  <script src="js/services/user_auth.js"></script>
+  <script src="js/services/blockchain_info.js"></script>
+
+  <!-- TODO: DELETE ME! -->
+  <script src="js/helper.js"></script>
+
+</body>
+</html>

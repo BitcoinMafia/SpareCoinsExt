@@ -1,0 +1,37 @@
+<navbar balance="balance"></navbar>
+<menu></menu>
+
+<div id="all-addresses">
+	<br>
+	<div class="row">
+		<div class="h3 text-center">
+			<span class="label label-grey square">
+				<strong>ALL ADDRESSES:</strong>
+			</span>
+		</div>
+	</div>
+	<br>
+	<spinner waiting="waiting" size='medium'></spinner>
+	<div class="row" ng-repeat="addr in addresses">
+		<div class="col-xs-1">
+			<h6>
+				<img ng-src="http://identico.in/address/{{addr.address}}" height="15" width="15">
+			</h6>
+		</div>
+		<div class="col-xs-8">
+			<h6>
+				<small class='extra-small address-muted'>
+					<a href="https://blockchain.info/address/{{addr.address}}" target="_blank">{{addr.address}}</a>
+				</small>
+			</h6>
+		</div>
+		<div class="col-xs-2">
+			<h6 class="text-success transaction extra-small">
+				<span class="fa fa-bitcoin"></span>
+				<span>
+					{{addr.final_balance / 100000000}}
+				</span>
+			</h6>
+		</div>
+	</div>
+</div>

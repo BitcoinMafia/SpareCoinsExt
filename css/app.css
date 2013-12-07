@@ -1,0 +1,193 @@
+body {
+	min-height: 350px;
+	max-height: 350px;
+	position: relative;
+	float: right;
+	overflow-x: hidden;
+}
+
+.btn-bottom {
+	position: absolute;
+	bottom: 0;
+}
+
+.clean-row {
+	margin: 0;
+}
+
+.container-fixed {
+	width: 330px;
+}
+
+.light {
+	font-weight: 200;
+}
+
+.has-info label {
+	opacity: 0.7;
+}
+
+navbar, menu {
+	padding: 0;
+	margin: 0;
+}
+
+navbar .navbar {
+	margin-bottom: 0px;
+}
+
+.tight-row {
+	margin: 0 10px;
+}
+
+.square {
+	border-radius: 0;
+}
+
+menu .btn-muted {
+	opacity: 0.4;
+	filter: alpha(opacity=50);
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+.form-group	{
+	margin: 0 20px;
+}
+
+.text-white {
+	color: #fff;
+}
+
+#navbar-custom {
+	background-color: #e7e7e7;
+	border-color: #dadada;
+}
+#navbar-custom a {
+	color: black;
+	background-color: #e7e7e7;
+	border-color: #dadada;
+	border: 0;
+}
+
+#navbar-custom a:hover, #navbar-custom .dropdown-menu a:hover {
+	color: white;
+	background-color: #333333;
+}
+
+#navbar-custom .menu-align {
+	right: 0;
+	left: auto;
+	border-radius: 0;
+}
+
+#navbar-custom .dropdown-menu {
+	background-color: #fff;
+}
+
+#navbar-custom .dropdown-menu a {
+	background-color: #fff;
+}
+
+#navbar-custom .dropdown-menu a.disabled {
+	color: #e7e7e7;
+	/*background-color: #e7e7e7;*/
+}
+
+#navbar-custom .dropdown-menu a.disabled:hover {
+	color: #e7e7e7;
+	background-color: #fff;
+	cursor: default;
+}
+
+.square-input {
+	border-radius: 0;
+	font-size: 12px;
+	height: 46px;
+	line-height: 1;
+}
+
+#receive textarea {
+	resize: none;
+	border: none;
+	outline: none;
+	font-size: 15px;
+	font-weight: 200;
+	width: 90%;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.label-grey {
+	background-color: #e7e7e7;
+	border-color: #dadada;
+	color: black;
+	opacity: 0.7;
+}
+
+.transaction {
+	white-space:nowrap;
+}
+
+#history .address-link {
+	color: #b3b3b3;
+}
+
+#history .address-link:hover {
+	color: #b3b3b3;
+}
+
+#history .row, #all-addresses .row {
+	margin-left: 5px;
+	margin-right: 0px;
+}
+
+#history .timestamp {
+	white-space:nowrap;
+	font-weight: 200;
+}
+
+#history .transaction-list {
+	height: 220px;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 7px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(0,0,0,.5);
+    -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
+}
+
+.line-divider {
+	border-bottom: 1px solid #dadada;
+	width: 90%;
+	margin: 0 auto;
+}
+
+.extra-small {
+	font-size: 10px;
+}
+
+.address-muted a {
+	color: black;
+	opacity: 0.50;
+	filter: alpha(opacity=50);
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+#all-addresses .transaction {
+	margin-top: 14px;
+}
+
+#balance {
+	float: right;
+	margin-right: 70px;
+}
+

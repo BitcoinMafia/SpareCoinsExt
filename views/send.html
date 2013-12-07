@@ -1,0 +1,57 @@
+<navbar balance="balance"></navbar>
+<menu current="'send'"></menu>
+
+<div id="send">
+	<br>
+	<form name="sendForm" ng-submit="submitForm()" novalidate validate-final>
+		<div class="form-group has-{{form.address.css}}">
+		  <label class="control-label" for="inputLarge">
+		  	<strong>To Address: </strong>
+		  	<small class='light text-{{form.address.css}}'>
+		  		{{form.address.message}}
+		  	</small>
+		  </label>
+		  <input
+		  	class="form-control square-input input-lg keypress-fixed"
+		  	name="address"
+		  	type="text"
+		  	tabindex="1"
+		  	placeholder="{{form.address.example}}"
+		  	ng-model="inputAddress"
+		  	ng-change="setTemp()"
+		  	validate-address
+		  	>
+		</div>
+		<br>
+		<div class="form-group has-{{form.amount.css}}">
+		  <label class="control-label">
+		  	<strong>Amount: </strong>
+		  	<small class='light'>{{form.amount.message}}</small>
+		  </label>
+		  <input
+		  	class="form-control square-input input-lg keypress-fixed"
+		  	type="number"
+		  	placeholder="{{form.amount.example}}"
+		  	tabindex="2"
+		  	ng-model="inputAmount"
+		  	ng-change="setTemp()"
+		  	min="0"
+		  	step="0.001"
+		  	validate-amount
+		  	>
+		</div>
+		<br>
+		<div class="clean-row">
+			<button
+				class="btn btn-{{button[state].css}} square btn-lg btn-block btn-bottom"
+				tabindex="3"
+				type="submit"
+				>
+				<span>
+					{{button[state].message}}
+					<spinner waiting="state === 'sending'" size="small"></spinner>
+				</span>
+			</button>
+		</div>
+	</form>
+</div>

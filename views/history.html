@@ -1,0 +1,68 @@
+<navbar balance="balance"></navbar>
+<menu current="'history'"></menu>
+</div>
+<div id="history">
+	<div class="row">
+		<div class="col-xs-2">
+			<div>
+				<h6 class="text-muted">
+					<strong>FROM</strong>
+				</h6>
+			</div>
+		</div>
+		<div class="col-xs-1">
+
+		</div>
+		<div class="col-xs-2">
+			<h6 class="text-muted">
+				<strong>TO</strong>
+			</h6>
+		</div>
+		<div class="col-xs-3">
+			<h6 class="text-muted">
+				<strong>AMOUNT</strong>
+			</h6>
+		</div>
+		<div class="col-xs-3">
+			<h6 class="text-muted">
+				<strong>TIME</strong>
+			</h6>
+		</div>
+	</div>
+	<div class="transaction-list">
+		<spinner waiting="waiting" size="medium"></spinner>
+		<div class="row" ng-repeat="tx in transactions">
+			<div class="col-xs-2">
+				<div>
+					<h6 class='text-center'>
+						<a href="https://blockchain.info/address/{{tx.from.full}}" target="_blank" class="{{tx.from.css}}">{{tx.from.truncated}}</a>
+					</h6>
+				</div>
+			</div>
+			<div class="col-xs-1">
+				<h6 class='text-{{tx.color}}'>
+					<span class="fa fa-chevron-circle-right fa-lg"></span>
+				</h6>
+			</div>
+			<div class="col-xs-2">
+				<h6 class="text-center">
+					<a href="https://blockchain.info/address/{{tx.from.full}}" target="_blank" class="{{tx.to.css}}">{{tx.to.truncated}}</a>
+				</h6>
+			</div>
+			<div class="col-xs-3">
+				<h6 class="text-{{tx.color}} transaction">
+					{{tx.sign}}<span class="fa fa-bitcoin"></span>
+					<span>{{tx.amount}}</span>
+				</h6>
+			</div>
+			<div class="col-xs-3">
+				<h6 class="text-muted">
+					<small class="timestamp" timeago="{{tx.time}}"></small>
+				</h6>
+			</div>
+			<div class="line-divider"></div>
+		</div>
+
+	</div>
+</div>
+

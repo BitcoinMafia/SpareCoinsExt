@@ -1,0 +1,32 @@
+<navbar balance="balance"></navbar>
+<menu current="'receive'"></menu>
+
+<div id="receive">
+	<br>
+	<div class="row">
+		<div class="h3 text-center">
+			<span class="label label-grey square">
+				<strong>YOUR CURRENT ADDRESS:</strong>
+			</span>
+		</div>
+	</div>
+	<br>
+	<div class="row">
+		<p class="lead text-center">
+			<img ng-src="http://identico.in/address/{{currentAddress}}" height="50" width="50">
+		</p>
+	</div>
+	<div class="row">
+		<p class="lead text-center">
+			<textarea readonly selected>{{currentAddress}}</textarea>
+		</p>
+	</div>
+	<div class="clean-row">
+		<form ng-submit="generateAnotherAddress()">
+			<input
+				class="btn btn-warning square btn-lg btn-block btn-bottom"
+				type="submit"
+				value="GENERATE ANOTHER ADDRESS"/>
+		</form>
+	</div>
+</div>
