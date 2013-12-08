@@ -96,9 +96,10 @@ spApp.controller('sendCtrl', function($scope, $rootScope, $timeout, $routeParams
 
 		$scope.setState('sending')
 
+		var satoshis = 100000000
 		var toAddresses = [{
 			addr: $scope.inputAddress,
-			value: BigInteger.valueOf($scope.inputAmount * 100000000)
+			value: BigInteger.valueOf($scope.inputAmount * satoshis)
 		}]
 
 		wallet.buildPendingTransaction(toAddresses, "password", function( pendingTransaction ) {
@@ -109,43 +110,24 @@ spApp.controller('sendCtrl', function($scope, $rootScope, $timeout, $routeParams
 		  var tx_hash = Crypto.util.bytesToHex(Crypto.SHA256(Crypto.SHA256(s, {asBytes: true}), {asBytes: true}).reverse());
 		  console.log(tx_serialized) ;
 
-		  BitcoinNodeAPI.pushTx(tx_serialized, tx_hash, function(err, data) {
-		    if (err) {
-					throw new Error("Transaction Failed")
-				}
+		  BGPage.pushTransaction(tx_serialized, tx_hash, function() {
+		  	// TODO:
+				// on callback, update total balance to localStorage
+	  		// on callback, update address balances to localStorage
+			  // on callback, update txs to localStorage
+			  // on callback, change $rootScope.balance to new balance
 
-				if (data) {
-					$timeout(function() {
-						$scope.setState('sent')
-					})
+				$timeout(function() {
+					$scope.setState('sent')
+				})
 
-					$timeout(function() {
-						_removeTemp();
-						_resetForm(); // hack
-						$scope.setState('normal')
-					}, 2000)
-				}
-		  }) ;
+				$timeout(function() {
+					_removeTemp();
+					_resetForm(); // hack
+					$scope.setState('normal')
+				}, 2000)
 
-
-		  // BGPage.pushTransaction(tx_serialized, tx_hash, function() {
-		  // 	// TODO:
-				// // on callback, update total balance to localStorage
-	  	// 	// on callback, update address balances to localStorage
-			 //  // on callback, update txs to localStorage
-			 //  // on callback, change $rootScope.balance to new balance
-
-				// $timeout(function() {
-				// 	$scope.setState('sent')
-				// })
-
-				// $timeout(function() {
-				// 	_removeTemp();
-				// 	_resetForm(); // hack
-				// 	$scope.setState('normal')
-				// }, 2000)
-
-		  // })
+		  })
 
 		}) ;
 	}

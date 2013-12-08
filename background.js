@@ -18,20 +18,20 @@ chrome.commands.onCommand.addListener(function(command) {
 // })
 
 
-// var pushTransaction = function(tx_serialized, tx_hash, callback) {
+var pushTransaction = function(tx_serialized, tx_hash, callback) {
+	console.log("background job started ...")
+	BitcoinNodeAPI.pushTx(tx_serialized, tx_hash, function(err, data) {
+    if (err) {
+			throw new Error("Transaction Failed")
+		}
 
-// 	BitcoinNodeAPI.pushTx(tx_serialized, tx_hash, function(err, data) {
-//     if (err) {
-// 			throw new Error("Transaction Failed")
-// 		}
-
-// 		if (data) {
-// 			beep()
-// 			console.log(data)
-// 			callback()
-// 		}
-//   }) ;
-// }
+		if (data) {
+			beep()
+			console.log(data)
+			callback()
+		}
+  }) ;
+}
 
 
 var beep = function() {
