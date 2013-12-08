@@ -17,16 +17,21 @@ chrome.commands.onCommand.addListener(function(command) {
 // 	// TO DO: send Transaction ...
 // })
 
-var pushTransaction = function(hex, callback) {
 
-	setTimeout(function() {
-		callback('data')
-		beep()
-	}, 2000)
+// var pushTransaction = function(tx_serialized, tx_hash, callback) {
 
-}
+// 	BitcoinNodeAPI.pushTx(tx_serialized, tx_hash, function(err, data) {
+//     if (err) {
+// 			throw new Error("Transaction Failed")
+// 		}
 
-
+// 		if (data) {
+// 			beep()
+// 			console.log(data)
+// 			callback()
+// 		}
+//   }) ;
+// }
 
 
 var beep = function() {

@@ -2,6 +2,9 @@
 
 spApp.controller('sendCtrl', function($scope, $rootScope, $timeout, $routeParams) {
 
+	// TODO: put Wallet as global object?
+	var wallet = SpareCoins.Wallet( SpareCoins.ChromeStorage )
+
 	$scope.balance = $rootScope.balance
 
 	$scope.setTemp = function() {
@@ -93,25 +96,58 @@ spApp.controller('sendCtrl', function($scope, $rootScope, $timeout, $routeParams
 
 		$scope.setState('sending')
 
-		BGPage.pushTransaction('HEX', function(data) {
+		var toAddresses = [{
+			addr: $scope.inputAddress,
+			value: BigInteger.valueOf($scope.inputAmount * 100000000)
+		}]
 
-			// TODO:
-			// on callback, update total balance to localStorage
-  		// on callback, update address balances to localStorage
-		  // on callback, update txs to localStorage
-		  // on callback, change $rootScope.balance to new balance
+		wallet.buildPendingTransaction(toAddresses, "password", function( pendingTransaction ) {
+		  var s = pendingTransaction.serialize()
+		  var tx_serialized = Crypto.util.bytesToHex(s);
+		  // var tx_serialized = "00000"
 
-			$timeout(function() {
-				$scope.setState('sent')
-			})
+		  var tx_hash = Crypto.util.bytesToHex(Crypto.SHA256(Crypto.SHA256(s, {asBytes: true}), {asBytes: true}).reverse());
+		  console.log(tx_serialized) ;
 
-			$timeout(function() {
-				_removeTemp();
-				_resetForm(); // hack
-				$scope.setState('normal')
-			}, 2000)
-		})
+		  BitcoinNodeAPI.pushTx(tx_serialized, tx_hash, function(err, data) {
+		    if (err) {
+					throw new Error("Transaction Failed")
+				}
 
+				if (data) {
+					$timeout(function() {
+						$scope.setState('sent')
+					})
+
+					$timeout(function() {
+						_removeTemp();
+						_resetForm(); // hack
+						$scope.setState('normal')
+					}, 2000)
+				}
+		  }) ;
+
+
+		  // BGPage.pushTransaction(tx_serialized, tx_hash, function() {
+		  // 	// TODO:
+				// // on callback, update total balance to localStorage
+	  	// 	// on callback, update address balances to localStorage
+			 //  // on callback, update txs to localStorage
+			 //  // on callback, change $rootScope.balance to new balance
+
+				// $timeout(function() {
+				// 	$scope.setState('sent')
+				// })
+
+				// $timeout(function() {
+				// 	_removeTemp();
+				// 	_resetForm(); // hack
+				// 	$scope.setState('normal')
+				// }, 2000)
+
+		  // })
+
+		}) ;
 	}
 
 })
