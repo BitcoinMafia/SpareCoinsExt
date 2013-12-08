@@ -1,20 +1,55 @@
-spApp.factory("TransactionPresenter", function(blockchainInfo) {
+spApp.factory("TransactionPresenter", function() {
 
-	var Transaction = function() {
-		this.addresses = Wallet.addresses()
-		this.rawData = []
-		this.parsedData = []
+
+	// Stub
+	// var Wallet = {
+	// 	hasAnyAddress: function(allAddresses) {
+	// 		var addr = ["168vRbBhSSQdQnyHH4ZUW8K3B65QjUQ4xJ"]
+
+	// 		for (i in addr) {
+	// 			for (a in allAddresses) {
+	// 				if (addr[i] === allAddresses[a]) {
+	// 					return true
+	// 				}
+	// 			}
+	// 			addr[i]
+	// 		}
+	// 		return false
+	// 	},
+	// 	// TO DO: check wallet for address
+	// 	calculateAmount: function(transaction) {
+	// 		return 0.0001
+	// 	},
+	// 	addresses: function() {
+	// 		return [
+	// 			"1FmdeybWTUsPj3QzDw3Y2X5YZNunugpcnA",
+	// 			"168vRbBhSSQdQnyHH4ZUW8K3B65QjUQ4xJ"
+	// 		]
+	// 	}
+	// }
+
+
+	var Transaction = function(callback) {
+		var self = this
+		self.Wallet = SpareCoins.Wallet(SpareCoins.ChromeStorage, function() {
+			self.addresses = self.Wallet.getAddressStrs();
+			console.log(self.addresses)
+			callback();
+		})
+
+		self.rawData = [];
+		self.parsedData = [];
 	}
 
 	Transaction.prototype = {
 		getLatest: function(callback) {
 			var self = this;
-			blockchainInfo.multiaddr(self.addresses, function(err, res) {
+			BitcoinNodeAPI.multiAddr(self.addresses, function(err, res) {
 
 				if (err) {
 					throw Error(err)
 				}
-				self.rawData = res.data
+				self.rawData = res
 
 				self.parse()
 
@@ -31,7 +66,7 @@ spApp.factory("TransactionPresenter", function(blockchainInfo) {
 				}
 
 				var time = txs[i].time
-				var outgoing = Wallet.hasAnyAddress(inputAddresses)
+				var outgoing = txs[i].result < 0 ? true : false
 
 				var parsed = {
 					from: {
@@ -44,7 +79,7 @@ spApp.factory("TransactionPresenter", function(blockchainInfo) {
 						full: txs[i].out[0].addr,
 						css: outgoing ? "address-link text-muted" : "square label label-warning",
 					},
-					amount: Wallet.calculateAmount(txs[i]),
+					amount: Math.abs(txs[i].result / 100000000),
 					time: time,
 					sign: outgoing ? "-" : "+",
 					color: outgoing ? "danger" : "success",
@@ -56,34 +91,6 @@ spApp.factory("TransactionPresenter", function(blockchainInfo) {
 
 		}
 
-	}
-
-
-	// Stub
-	var Wallet = {
-		hasAnyAddress: function(allAddresses) {
-			var addr = ["168vRbBhSSQdQnyHH4ZUW8K3B65QjUQ4xJ"]
-
-			for (i in addr) {
-				for (a in allAddresses) {
-					if (addr[i] === allAddresses[a]) {
-						return true
-					}
-				}
-				addr[i]
-			}
-			return false
-		},
-		// TO DO: check wallet for address
-		calculateAmount: function(transaction) {
-			return 0.0001
-		},
-		addresses: function() {
-			return [
-				"1FmdeybWTUsPj3QzDw3Y2X5YZNunugpcnA",
-				"168vRbBhSSQdQnyHH4ZUW8K3B65QjUQ4xJ"
-			]
-		}
 	}
 
 	return Transaction

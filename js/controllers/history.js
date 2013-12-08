@@ -17,10 +17,13 @@ spApp.controller('historyCtrl', function($scope, $rootScope, TransactionPresente
 
 	$scope.waiting = true
 
-	var txs = new TransactionPresenter()
-	txs.getLatest(function(data) {
+	var txs = new TransactionPresenter(function() {
+		txs.getLatest(function(data) {
 
-		$scope.waiting = false
-		$scope.transactions = data
+			$scope.waiting = false
+			$scope.$apply(function() {
+				$scope.transactions = data
+			})
+		})
 	})
 })

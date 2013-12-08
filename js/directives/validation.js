@@ -14,7 +14,9 @@ var sendFormValidator = {
 			}
 
 			// TODO: Validate checksum!!!
-			if (inputAddress.length <= 3) {
+			var newAddress = new SpareCoins.Address(inputAddress)
+			var valid = newAddress.validate()
+			if (!valid) {
 				$scope.form.address = {
 					css: "error",
 					message: "Invalid address"
