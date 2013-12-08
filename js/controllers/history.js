@@ -13,7 +13,7 @@ spApp.controller('historyCtrl', function($scope, $rootScope, TransactionPresente
   // on callback, change $rootScope.balance to new balance
   // on callback, unshift new txs to top of list
 
-	$rootScope.$apply(function() {
+	$rootScope.$watch('balance', function() {
 		$scope.balance = $rootScope.balance
 	})
 

@@ -4,18 +4,19 @@ spApp.controller('receiveCtrl', function($scope, $rootScope) {
 
 
 	// Wallet.getBalance()
-	$rootScope.$apply(function() {
+	$rootScope.$watch('balance', function() {
 		$scope.balance = $rootScope.balance
 	})
 
-	var Wallet = SpareCoins.Wallet( SpareCoins.ChromeStorage, function() {
+	var Wallet = SpareCoins.Wallet(SpareCoins.ChromeStorage, function() {
 
 		// TO DO: Should be last generated address without money
 		var addresses = Wallet.getAddressStrs()
-
 		$scope.$apply(function() {
+			var baseURL = "http://identico.in/address/"
 			var randIndex = Math.floor(Math.random() * addresses.length)
 			$scope.currentAddress = addresses[randIndex]
+			$scope.currentImgURL = baseURL + $scope.currentAddress
 		})
 	})
 
