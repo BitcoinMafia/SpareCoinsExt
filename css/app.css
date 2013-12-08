@@ -153,6 +153,12 @@ menu .btn-muted {
 	overflow-x: hidden;
 }
 
+#all-addresses {
+	height: 257px;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+
 ::-webkit-scrollbar {
     -webkit-appearance: none;
     width: 7px;

@@ -1,39 +1,10 @@
 spApp.factory("TransactionPresenter", function() {
 
-
-	// Stub
-	// var Wallet = {
-	// 	hasAnyAddress: function(allAddresses) {
-	// 		var addr = ["168vRbBhSSQdQnyHH4ZUW8K3B65QjUQ4xJ"]
-
-	// 		for (i in addr) {
-	// 			for (a in allAddresses) {
-	// 				if (addr[i] === allAddresses[a]) {
-	// 					return true
-	// 				}
-	// 			}
-	// 			addr[i]
-	// 		}
-	// 		return false
-	// 	},
-	// 	// TO DO: check wallet for address
-	// 	calculateAmount: function(transaction) {
-	// 		return 0.0001
-	// 	},
-	// 	addresses: function() {
-	// 		return [
-	// 			"1FmdeybWTUsPj3QzDw3Y2X5YZNunugpcnA",
-	// 			"168vRbBhSSQdQnyHH4ZUW8K3B65QjUQ4xJ"
-	// 		]
-	// 	}
-	// }
-
-
 	var Transaction = function(callback) {
 		var self = this
 		self.Wallet = SpareCoins.Wallet(SpareCoins.ChromeStorage, function() {
 			self.addresses = self.Wallet.getAddressStrs();
-			console.log(self.addresses)
+
 			callback();
 		})
 

@@ -1,25 +1,30 @@
-spApp.factory("AllAddressesPresenter", function(blockchainInfo) {
+spApp.factory("AllAddressesPresenter", function() {
 
-	var AllAddresses = function() {
-		this.addressInfo;
+	var AllAddresses = function(callback) {
+		var self = this
+		self.Wallet = SpareCoins.Wallet(SpareCoins.ChromeStorage, function() {
+			self.addresses = self.Wallet.getAddressStrs();
+
+			callback();
+		})
+
+		self.addressInfo;
 	}
 
 	AllAddresses.prototype.getLatest = function(callback) {
-		blockchainInfo.multiaddr(Wallet.allAddresses, function(err, res) {
+		var self = this;
+
+		// debugger
+		BitcoinNodeAPI.multiAddr(self.addresses, function(err, res) {
 			if (err)
 				throw callback(err)
-			this.addressInfo = res.data.addresses
-			callback(null, this.addressInfo)
+
+			self.addressInfo = res.addresses
+
+			console.log(self.addressInfo)
+
+			callback(null, self.addressInfo)
 		})
-	}
-
-	// stub
-
-	var Wallet = {
-		allAddresses: [
-		"1FmdeybWTUsPj3QzDw3Y2X5YZNunugpcnA",
-		"168vRbBhSSQdQnyHH4ZUW8K3B65QjUQ4xJ"
-		]
 	}
 
 	return AllAddresses

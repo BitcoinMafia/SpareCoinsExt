@@ -15,15 +15,20 @@ spApp.controller('allAddressesCtrl', function($scope, $rootScope, AllAddressesPr
 
 	$scope.balance = $rootScope.balance
 
-	var allAddresses = new AllAddressesPresenter()
-
 	$scope.waiting = true
-	allAddresses.getLatest(function(err, data) {
-		if (err) {
-			throw Error(err)
-		}
 
-		$scope.waiting = false
-		$scope.addresses = data
+	var allAddresses = new AllAddressesPresenter(function() {
+
+		allAddresses.getLatest(function(err, data) {
+			if (err) {
+				throw Error(err)
+			}
+
+			$scope.$apply(function() {
+				$scope.waiting = false
+				$scope.addresses = data
+			})
+		})
 	})
+
 })
