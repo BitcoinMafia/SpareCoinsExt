@@ -10,15 +10,15 @@ spApp.controller('sendCtrl', function($scope, $rootScope, $timeout, $routeParams
 
 	$scope.setTemp = function() {
 		$scope.setState('normal')
-		chrome.storage.local.set({
-			"tempTimestamp": (new Date()).getTime()
+		var timestamp = (new Date()).getTime()
+
+		SpareCoins.ChromeStorage.set('cache', 'timestamp', timestamp, function() {
+			SpareCoins.ChromeStorage.set('cache', 'inputAddress', $scope.inputAddress, function() {
+				SpareCoins.ChromeStorage.set('cache', 'inputAmount', $scope.inputAmount)
+			})
 		})
-		chrome.storage.local.set({
-			"tempAddress": $scope.inputAddress
-		})
-		chrome.storage.local.set({
-			"tempAmount": $scope.inputAmount
-		})
+
+
 	}
 
 	// States can be ["normal", "confirm", "sending", "sent"]
@@ -29,8 +29,9 @@ spApp.controller('sendCtrl', function($scope, $rootScope, $timeout, $routeParams
 	function _removeTemp() {
 		$scope.inputAddress = ""
 		$scope.inputAmount = ""
-		chrome.storage.local.remove("tempAddress")
-		chrome.storage.local.remove("tempAmount")
+
+		SpareCoins.ChromeStorage.remove('cache', "inputAddress")
+		SpareCoins.ChromeStorage.remove('cache', "inputAmount")
 	}
 
 	function _resetForm() {
@@ -75,19 +76,18 @@ spApp.controller('sendCtrl', function($scope, $rootScope, $timeout, $routeParams
 	$scope.inputAddress = ""
 	$scope.inputAmount = ""
 
-	// TODO: Use Chrome Storage wrapper
-	var tempData = ["tempTimestamp", "tempAddress", "tempAmount"]
-	chrome.storage.local.get(tempData, function(obj) {
+	var TTL = 60000
+	SpareCoins.ChromeStorage.get('cache', function(data) {
 		var currentTime = (new Date()).getTime()
-		var TTL = 5000
-		var expiryTime = obj.tempTimestamp + TTL
+		var expiryTime = data['timestamp'] + TTL
 
 		if (expiryTime < currentTime) {
 			return _removeTemp();
 		}
 
-		$scope.inputAddress = obj.tempAddress
-		$scope.inputAmount = obj.tempAmount
+		$scope.inputAddress = data["inputAddress"]
+		$scope.inputAmount = data["inputAmount"]
+
 	})
 
 	$scope.submitForm = function() {
