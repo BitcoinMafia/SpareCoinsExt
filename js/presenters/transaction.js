@@ -41,12 +41,12 @@ spApp.factory("TransactionPresenter", function() {
 
 				var parsed = {
 					from: {
-						truncated: outgoing ? "YOU" : txs[i].inputs[0].prev_out.addr.substring(0, 3) + "...",
+						truncated: outgoing ? "YOU" : txs[i].inputs[0].prev_out.addr.substring(0, 4) + "..",
 						full: txs[i].inputs[0].prev_out.addr,
 						css: outgoing ? "square label label-warning" : "address-link text-muted"
 					},
 					to: {
-						truncated: outgoing ? txs[i].out[0].addr.substring(0, 3) + "..." : "YOU",
+						truncated: outgoing ? txs[i].out[0].addr.substring(0, 4) + ".." : "YOU",
 						full: txs[i].out[0].addr,
 						css: outgoing ? "address-link text-muted" : "square label label-warning",
 					},

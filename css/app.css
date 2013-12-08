@@ -177,7 +177,11 @@ menu .btn-muted {
 }
 
 .extra-small {
-	font-size: 9px;
+	font-size: 10px;
+}
+
+#all-addresses .bal {
+	padding-left: 0px;
 }
 
 .address-muted a {

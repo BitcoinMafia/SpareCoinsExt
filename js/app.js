@@ -29,7 +29,7 @@ spApp.config(function($routeProvider) {
 
           BitcoinNodeAPI.multiAddr(addresses, function(err, data) {
             $rootScope.$apply(function() {
-              $rootScope.balance = data.wallet.final_balance
+              $rootScope.balance = data.wallet.final_balance / 100000000
             })
           })
         })

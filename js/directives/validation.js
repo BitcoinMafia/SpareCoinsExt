@@ -13,7 +13,6 @@ var sendFormValidator = {
 				return;
 			}
 
-			// TODO: Validate checksum!!!
 			var newAddress = new SpareCoins.Address(inputAddress)
 			var valid = newAddress.validate()
 			if (!valid) {

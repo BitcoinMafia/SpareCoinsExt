@@ -107,10 +107,8 @@ spApp.controller('sendCtrl', function($scope, $rootScope, $timeout, $routeParams
 		wallet.buildPendingTransaction(toAddresses, "password", function( pendingTransaction ) {
 		  var s = pendingTransaction.serialize()
 		  var tx_serialized = Crypto.util.bytesToHex(s);
-		  // var tx_serialized = "00000"
 
 		  var tx_hash = Crypto.util.bytesToHex(Crypto.SHA256(Crypto.SHA256(s, {asBytes: true}), {asBytes: true}).reverse());
-		  console.log(tx_serialized) ;
 
 		  BGPage.pushTransaction(tx_serialized, tx_hash, function() {
 		  	// TODO:

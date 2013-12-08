@@ -5,17 +5,17 @@ spApp.directive("timeago", function() {
 		 var TEMPLATES = {
 		    prefix: "",
 		    suffix: " ago",
-		    seconds: "<1 m",
-		    minute: "1 minute",
-		    minutes: "%d minutes",
-		    hour: "1 hour",
-		    hours: "%d hours",
+		    seconds: "<1 min",
+		    minute: "1 min",
+		    minutes: "%d mins",
+		    hour: "1 hr",
+		    hours: "%d hrs",
 		    day: "1 day",
 		    days: "%d days",
-		    month: "1 month",
-		    months: "%d months",
-		    year: "a1 year",
-		    years: "%d years"
+		    month: "1 mth",
+		    months: "%d mths",
+		    year: "a1 yr",
+		    years: "%d yrs"
 		};
 		var buildTemplate = function(t, n) {
 		    return TEMPLATES[t] && TEMPLATES[t].replace(/%d/i, Math.abs(Math.round(n)));

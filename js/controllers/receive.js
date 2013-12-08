@@ -8,21 +8,25 @@ spApp.controller('receiveCtrl', function($scope, $rootScope) {
 		$scope.balance = $rootScope.balance
 	})
 
+	var baseURL = "http://identico.in/address/"
+
 	var Wallet = SpareCoins.Wallet(SpareCoins.ChromeStorage, function() {
 
 		// TO DO: Should be last generated address without money
 		var addresses = Wallet.getAddressStrs()
 		$scope.$apply(function() {
-			var baseURL = "http://identico.in/address/"
+
 			var randIndex = Math.floor(Math.random() * addresses.length)
 			$scope.currentAddress = addresses[randIndex]
 			$scope.currentImgURL = baseURL + $scope.currentAddress
+
 		})
 	})
 
 	$scope.generateAnotherAddress = function() {
 		var addrObj = Wallet.generateAddress("password")
 		$scope.currentAddress = addrObj.getAddress()
+		$scope.currentImgURL = baseURL + $scope.currentAddress
 	}
 
 })
