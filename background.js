@@ -13,9 +13,9 @@ chrome.commands.onCommand.addListener(function(command) {
 // 	}
 // })
 
-chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
-	// TO DO: send Transaction ...
-})
+// chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
+// 	// TO DO: send Transaction ...
+// })
 
 var pushTransaction = function(hex, callback) {
 
@@ -25,6 +25,9 @@ var pushTransaction = function(hex, callback) {
 	}, 2000)
 
 }
+
+
+
 
 var beep = function() {
 	var file = "beep.wav"
