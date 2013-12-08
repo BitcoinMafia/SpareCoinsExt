@@ -1,13 +1,9 @@
 spApp.factory("TransactionPresenter", function() {
 
-	var Transaction = function(callback) {
+	var Transaction = function(wallet) {
 		var self = this
-		self.Wallet = SpareCoins.Wallet(SpareCoins.ChromeStorage, function() {
-			self.addresses = self.Wallet.getAddressStrs();
-
-			callback();
-		})
-
+		self.Wallet = wallet;
+		self.addresses = self.Wallet.getAddressStrs();
 		self.rawData = [];
 		self.parsedData = [];
 	}

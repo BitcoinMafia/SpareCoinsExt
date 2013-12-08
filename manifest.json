@@ -1,6 +1,6 @@
 {
   "name": "SpareCoins",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "manifest_version": 2,
   "description": "The Secure Lightweight Bitcoin Wallet in your Browser",
   "homepage_url": "http://sparecoins.io",
@@ -25,7 +25,8 @@
   },
   "permissions": [
     "unlimitedStorage",
-    "storage"
+    "storage",
+    "downloads"
   ],
   "commands": {
     "_execute_browser_action": {

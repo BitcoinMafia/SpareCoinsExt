@@ -2,8 +2,7 @@
 
 spApp.controller('sendCtrl', function($scope, $rootScope, $timeout, $routeParams) {
 
-	// TODO: put Wallet as global object?
-	var wallet = SpareCoins.Wallet( SpareCoins.ChromeStorage )
+	var Wallet = SpareCoins.Wallet( SpareCoins.ChromeStorage )
 
 	$rootScope.$watch('balance', function() {
 		$scope.balance = $rootScope.balance
@@ -87,6 +86,8 @@ spApp.controller('sendCtrl', function($scope, $rootScope, $timeout, $routeParams
 
 	$scope.submitForm = function() {
 
+		if (Wallet.getAddresses().length === 0) return;
+
 		if (!$scope.form.address.valid || !$scope.form.amount.valid) return;
 
 		if ($scope.state === 'sending' || $scope.state === 'sent') return;
@@ -104,7 +105,7 @@ spApp.controller('sendCtrl', function($scope, $rootScope, $timeout, $routeParams
 			value: BigInteger.valueOf($scope.inputAmount * satoshis)
 		}]
 
-		wallet.buildPendingTransaction(toAddresses, "password", function( pendingTransaction ) {
+		Wallet.buildPendingTransaction(toAddresses, "password", function( pendingTransaction ) {
 		  var s = pendingTransaction.serialize()
 		  var tx_serialized = Crypto.util.bytesToHex(s);
 

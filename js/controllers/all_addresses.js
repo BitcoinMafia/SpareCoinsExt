@@ -19,7 +19,10 @@ spApp.controller('allAddressesCtrl', function($scope, $rootScope, AllAddressesPr
 
 	$scope.waiting = true
 
-	var allAddresses = new AllAddressesPresenter(function() {
+	var Wallet = SpareCoins.Wallet(SpareCoins.ChromeStorage)
+
+	Wallet.loadData(function() {
+		var allAddresses = new AllAddressesPresenter(Wallet)
 
 		allAddresses.getLatest(function(err, data) {
 			if (err) {
@@ -31,6 +34,7 @@ spApp.controller('allAddressesCtrl', function($scope, $rootScope, AllAddressesPr
 				$scope.addresses = data
 			})
 		})
+
 	})
 
 })

@@ -13,13 +13,17 @@ spApp.controller('historyCtrl', function($scope, $rootScope, TransactionPresente
   // on callback, change $rootScope.balance to new balance
   // on callback, unshift new txs to top of list
 
-	$rootScope.$watch('balance', function() {
+  $scope.waiting = true
+  $rootScope.$watch('balance', function() {
 		$scope.balance = $rootScope.balance
 	})
 
-	$scope.waiting = true
+  var Wallet = SpareCoins.Wallet(SpareCoins.ChromeStorage)
 
-	var txs = new TransactionPresenter(function() {
+  Wallet.loadData(function() {
+
+		var txs = new TransactionPresenter(Wallet)
+
 		txs.getLatest(function(data) {
 
 			$scope.waiting = false
@@ -27,5 +31,6 @@ spApp.controller('historyCtrl', function($scope, $rootScope, TransactionPresente
 				$scope.transactions = data
 			})
 		})
-	})
+
+  })
 })

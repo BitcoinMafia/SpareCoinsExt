@@ -22,13 +22,21 @@ spApp.config(function($routeProvider) {
         // on callback, update address balances to localStorage
         // on callback, also update txs to localStorage
         // on callback, change $rootScope.balance to new balance
-        var Wallet = SpareCoins.Wallet(SpareCoins.ChromeStorage, function(data) {
+
+        var Wallet = SpareCoins.Wallet(SpareCoins.ChromeStorage);
+
+        Wallet.loadData(function(data) {
           var addresses = Wallet.getAddressStrs()
 
           BitcoinNodeAPI.multiAddr(addresses, function(err, data) {
+            if (err) {
+              throw Error(err)
+            }
+
             $rootScope.$apply(function() {
-              $rootScope.balance = data.wallet.final_balance / 100000000
+              $rootScope.balance = data["wallet"]["final_balance"] / 100000000
             })
+
           })
         })
 
@@ -73,8 +81,10 @@ spApp.config(function($routeProvider) {
 
   $routeProvider.when('/backup-private-keys', {
     resolve: {
-      backupPrivateKeys: function() {
+      backupPrivateKeys: function($location) {
         BGPage.backupPrivateKeys()
+
+        return $location.path("/all-addresses")
       }
     }
   })
