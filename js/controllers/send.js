@@ -2,7 +2,7 @@
 
 spApp.controller('sendCtrl', function($scope, $rootScope, $timeout, $routeParams) {
 
-	var Wallet = SpareCoins.Wallet( SpareCoins.ChromeStorage )
+	var Wallet = SpareCoins.Wallet(SpareCoins.ChromeStorage)
 
 	$rootScope.$watch('balance', function() {
 		$scope.balance = $rootScope.balance
@@ -10,9 +10,15 @@ spApp.controller('sendCtrl', function($scope, $rootScope, $timeout, $routeParams
 
 	$scope.setTemp = function() {
 		$scope.setState('normal')
-		chrome.storage.local.set({"tempTimestamp": (new Date()).getTime()})
-		chrome.storage.local.set({"tempAddress": $scope.inputAddress})
-		chrome.storage.local.set({"tempAmount": $scope.inputAmount})
+		chrome.storage.local.set({
+			"tempTimestamp": (new Date()).getTime()
+		})
+		chrome.storage.local.set({
+			"tempAddress": $scope.inputAddress
+		})
+		chrome.storage.local.set({
+			"tempAmount": $scope.inputAmount
+		})
 	}
 
 	// States can be ["normal", "confirm", "sending", "sent"]
@@ -105,18 +111,22 @@ spApp.controller('sendCtrl', function($scope, $rootScope, $timeout, $routeParams
 			value: BigInteger.valueOf($scope.inputAmount * satoshis)
 		}]
 
-		Wallet.buildPendingTransaction(toAddresses, "password", function( pendingTransaction ) {
-		  var s = pendingTransaction.serialize()
-		  var tx_serialized = Crypto.util.bytesToHex(s);
+		Wallet.buildPendingTransaction(toAddresses, "password", function(pendingTransaction) {
+			var s = pendingTransaction.serialize()
+			var tx_serialized = Crypto.util.bytesToHex(s);
 
-		  var tx_hash = Crypto.util.bytesToHex(Crypto.SHA256(Crypto.SHA256(s, {asBytes: true}), {asBytes: true}).reverse());
+			var tx_hash = Crypto.util.bytesToHex(Crypto.SHA256(Crypto.SHA256(s, {
+				asBytes: true
+			}), {
+				asBytes: true
+			}).reverse());
 
-		  BGPage.pushTransaction(tx_serialized, tx_hash, function() {
-		  	// TODO:
+			BGPage.pushTransaction(tx_serialized, tx_hash, function() {
+				// TODO:
 				// on callback, update total balance to localStorage
-	  		// on callback, update address balances to localStorage
-			  // on callback, update txs to localStorage
-			  // on callback, change $rootScope.balance to new balance
+				// on callback, update address balances to localStorage
+				// on callback, update txs to localStorage
+				// on callback, change $rootScope.balance to new balance
 
 				$timeout(function() {
 					$scope.setState('sent')
@@ -133,9 +143,9 @@ spApp.controller('sendCtrl', function($scope, $rootScope, $timeout, $routeParams
 					$scope.setState('normal')
 				}, 2000)
 
-		  })
+			})
 
-		}) ;
+		});
 	}
 
 })

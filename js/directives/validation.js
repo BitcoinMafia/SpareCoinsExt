@@ -5,7 +5,7 @@ var sendFormValidator = {
 		var inputAddress = $scope.inputAddress
 
 		$scope.$apply(function() {
-			if (inputAddress.length === 0 ) {
+			if (inputAddress.length === 0) {
 				$scope.form.address = {
 					css: "warning",
 					message: ""
@@ -74,7 +74,7 @@ var sendFormValidator = {
 	}
 }
 
-spApp.directive('validateAddress',function(){
+spApp.directive('validateAddress', function() {
 	return {
 		restrict: 'A',
 		link: function($scope, element, attrs) {
@@ -87,7 +87,7 @@ spApp.directive('validateAddress',function(){
 	};
 })
 
-spApp.directive('validateAmount',function(){
+spApp.directive('validateAmount', function() {
 	return {
 		restrict: 'A',
 		link: function($scope, element, attrs) {

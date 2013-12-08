@@ -3,7 +3,7 @@
 spApp.directive("keypressRoutes", function($location) {
 	return function($scope, element, attrs) {
 
-		element.on("keydown", function(data){
+		element.on("keydown", function(data) {
 
 			var target = $(data.target)
 			if (target.hasClass("keypress-fixed")) {
