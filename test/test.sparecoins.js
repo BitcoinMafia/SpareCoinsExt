@@ -95,13 +95,15 @@ it("is able to generate and save new addresses", function(done) {
 });
 
 it("able to generate the addressStrs as an array", function(done) {
-  var Wallet = new SpareCoins.Wallet( testStorage ) ;
-  expect(Wallet.getAddresses().length).to.eq(10);
+  var Wallet = new SpareCoins.Wallet( testStorage, function() {
 
-  var addressStrs = Wallet.getAddressStrs();
-  expect(addressStrs[0].constructor).to.eq(String)
-  expect(addressStrs.length).to.eq(10);
-  done();
+    expect(Wallet.getAddresses().length).to.eq(10);
+
+    var addressStrs = Wallet.getAddressStrs();
+    expect(addressStrs[0].constructor).to.eq(String)
+    expect(addressStrs.length).to.eq(10);
+    done();
+  } ) ;
 });
 
 it("is able to update with latest data from blockchain.info", function(done) {
