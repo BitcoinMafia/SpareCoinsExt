@@ -23,10 +23,18 @@ spApp.config(function($routeProvider) {
         // on callback, also update txs to localStorage
         // on callback, change $rootScope.balance to new balance
 
-        $rootScope.balance = 0.123123
+        var Wallet = SpareCoins.Wallet(SpareCoins.ChromeStorage, function() {
+
+          var addresses = Wallet.getAddressStrs()
+
+          BitcoinNodeAPI.multiAddr(addresses, function(err, data) {
+            $rootScope.$apply(function() {
+              $rootScope.balance = data.wallet.final_balance
+            })
+          })
+        })
 
         if (UserAuth.loggedIn(true)) {
-
           return $location.path("/send")
         }
 

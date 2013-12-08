@@ -4,7 +4,9 @@ spApp.controller('receiveCtrl', function($scope, $rootScope) {
 
 
 	// Wallet.getBalance()
-	$scope.balance = $rootScope.balance
+	$rootScope.$apply(function() {
+		$scope.balance = $rootScope.balance
+	})
 
 	var wallet = SpareCoins.Wallet( SpareCoins.ChromeStorage )
 

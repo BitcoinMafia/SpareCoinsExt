@@ -5,7 +5,9 @@ spApp.controller('sendCtrl', function($scope, $rootScope, $timeout, $routeParams
 	// TODO: put Wallet as global object?
 	var wallet = SpareCoins.Wallet( SpareCoins.ChromeStorage )
 
-	$scope.balance = $rootScope.balance
+	$rootScope.$apply(function() {
+		$scope.balance = $rootScope.balance
+	})
 
 	$scope.setTemp = function() {
 		$scope.setState('normal')

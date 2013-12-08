@@ -13,7 +13,9 @@ spApp.controller('allAddressesCtrl', function($scope, $rootScope, AllAddressesPr
   // on callback, change $rootScope.balance to new balance
   // on callback, replace spinners with balance
 
-	$scope.balance = $rootScope.balance
+	$rootScope.$apply(function() {
+		$scope.balance = $rootScope.balance
+	})
 
 	$scope.waiting = true
 
