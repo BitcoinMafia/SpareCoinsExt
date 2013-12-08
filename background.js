@@ -15,7 +15,6 @@ var pushTransaction = function(tx_serialized, tx_hash, callback) {
   }) ;
 }
 
-
 var beep = function() {
 	var file = "beep.wav"
 	return (new Audio(file)).play()

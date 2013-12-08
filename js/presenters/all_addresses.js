@@ -19,11 +19,11 @@ spApp.factory("AllAddressesPresenter", function() {
 			if (err)
 				throw callback(err)
 
-			self.addressInfo = res.addresses
+			var sortedAddresses = res.addresses.sort(function(a, b) {
+				return b.final_balance - a.final_balance
+			})
 
-			console.log(self.addressInfo)
-
-			callback(null, self.addressInfo)
+			callback(null, sortedAddresses)
 		})
 	}
 
