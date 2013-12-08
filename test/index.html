@@ -1,0 +1,24 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Mocha Tests</title>
+  <link rel="stylesheet" href="mocha.css" />
+</head>
+<body>
+  <div id="mocha"></div>
+  <script src="mocha.js"></script>
+  <script src="chai.js"></script>
+  <script src="sinon-1.7.3.js"></script>
+  <script src="../js/aes.js"></script>
+  <script src="../bower_components/jquery/jquery.min.js"></script>
+  <script src="../js/bitcoinjs-min.js"></script>
+  <script src="../js/sparecoins_lib.js"></script>
+  <script src="../js/spareCoins.js"></script>
+  <script>mocha.setup('bdd')</script>
+  <script src="test.sparecoins.js"></script>
+  <script>
+    mocha.checkLeaks();
+    mocha.run();
+  </script>
+</body>
+</html>
