@@ -28,6 +28,8 @@ var backupPrivateKeys = function() {
 	var timestamp = (new Date()).getTime()
 
 	var addresses = Wallet.getAddresses()
+	var anchor = document.createElement('a');
+
 	var encryptedKeysURL = "data:text/csv;charset=utf-8,"
 
 	encryptedKeysURL += escape("Encrypted Privated Keys (AES)" + "\n")
@@ -36,8 +38,9 @@ var backupPrivateKeys = function() {
 		encryptedKeysURL += escape(addresses[i].getfCryptPrivateKey() + "\n")
 	}
 
-	chrome.downloads.download({
-		url: encryptedKeysURL,
-		filename: "sparecoins_backup_" + timestamp
-	})
+	anchor.setAttribute('href', encryptedKeysURL)
+	anchor.setAttribute('download', "sparecoins_backup_" + timestamp)
+
+	anchor.click()
+
 }
