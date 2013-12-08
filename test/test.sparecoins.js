@@ -13,9 +13,14 @@ var testStorage = {
   get: function(collection, callback) {
     var data = localStorage.getItem(collection);
     data = JSON.parse(data);
+
+    // Getting LocalStorage and ChromeStorage API to be consistent
+    // localStorage returns the value only
+    // whereas ChromeStorage returns the whole object including the key
     if (data === null) {
       data = {};
     }
+
     callback(data);
     return undefined;
   },
@@ -63,11 +68,13 @@ describe("Wallet", function() {
   beforeEach(function(done) {
     testStorage.clear("wallet");
 
-    var Wallet = new SpareCoins.Wallet( testStorage ) ;
-    for (var i=0; i<10; ++i) {
-      Wallet.generateAddress("passwordDigest");
-    }
-    done();
+    new SpareCoins.Wallet( testStorage, function(Wallet) {
+      for (var i=0; i<10; ++i) {
+        Wallet.generateAddress("passwordDigest");
+      }
+      expect(Wallet.getAddresses().length).to.eq(10);
+      done();
+    } ) ;
   });
 
   // it("init loads up recent tx and addresses", function(done){
@@ -86,61 +93,64 @@ describe("Wallet", function() {
   //   done();
   // });
 
-it("is able to generate and save new addresses", function(done) {
-  var Wallet = new SpareCoins.Wallet( testStorage ) ;
-  var address = Wallet.generateAddress("passwordDigest");
-  expect(address.getPrivateKey( )).to.eq(undefined);
-  expect(address.getfCryptPrivateKey( ).constructor).to.eq(String);
-  done();
-});
+  it("is able to generate and save new addresses", function(done) {
+    new SpareCoins.Wallet( testStorage, function( Wallet ) {
+      var address = Wallet.generateAddress("passwordDigest");
+      expect(address.getPrivateKey( )).to.eq(undefined);
+      expect(address.getfCryptPrivateKey( ).constructor).to.eq(String);
+      done();
+    } ) ;
+  });
 
-it("able to generate the addressStrs as an array", function(done) {
-  var Wallet = new SpareCoins.Wallet( testStorage, function() {
+  it("able to generate the addressStrs as an array", function(done) {
+    this.timeout(5000)
+    new SpareCoins.Wallet( testStorage, function( Wallet ) {
 
-    expect(Wallet.getAddresses().length).to.eq(10);
+      expect(Wallet.getAddresses().length).to.eq(10);
 
-    var addressStrs = Wallet.getAddressStrs();
-    expect(addressStrs[0].constructor).to.eq(String)
-    expect(addressStrs.length).to.eq(10);
-    done();
-  } ) ;
-});
+      var addressStrs = Wallet.getAddressStrs();
+      expect(addressStrs[0].constructor).to.eq(String)
+      expect(addressStrs.length).to.eq(10);
+      done();
 
-it("is able to update with latest data from blockchain.info", function(done) {
+    } ) ;
+  });
+
+  it("is able to update with latest data from blockchain.info", function(done) {
       // var wallet = new Wallet(testStorage);
       // wallet.getLatestData(function() {
       //   done();
       // });
-done();
+  done();
 });
 
-it("is able to save newAddress and update its own array of addresses", function(done) {
+  it("is able to save newAddress and update its own array of addresses", function(done) {
     // wallet._saveNewAddress()
     done();
   });
 
-it("build a pushable transaction", function(done) {
-  this.timeout(5000);
-  new SpareCoins.Address("1NJ3dRBeVnQW7Ar2J5q8SBZ3rYpLzYL6eP", "", "").save("passwordDigest", testStorage);
+// it("build a pushable transaction", function(done) {
+//   this.timeout(5000);
+//   new SpareCoins.Address("1NJ3dRBeVnQW7Ar2J5q8SBZ3rYpLzYL6eP", "", "").save("passwordDigest", testStorage);
 
-  var Wallet = new SpareCoins.Wallet( testStorage ) ;
+//   new SpareCoins.Wallet( testStorage, function( Wallet ) {
+//     // TODO: write a wrapper to create toAddresses
+//     var toAddresses = [{addr:"1DaVAK9bbTYUb2xMALmkcFHBokDmqoihVe", value: BigInteger.valueOf(1000)}] ;
 
-  // TODO: write a wrapper to create toAddresses
-  var toAddresses = [{addr:"1DaVAK9bbTYUb2xMALmkcFHBokDmqoihVe", value: BigInteger.valueOf(1000)}] ;
-
-  Wallet.buildPendingTransaction(toAddresses, "passwordDigest", function( pendingTransaction ) {
-    var s = pendingTransaction.serialize()
-    var tx_serialized = Crypto.util.bytesToHex(s);
-    // var tx_serialized = "00000"
-    var tx_hash = Crypto.util.bytesToHex(Crypto.SHA256(Crypto.SHA256(s, {asBytes: true}), {asBytes: true}).reverse());
-    console.log(tx_serialized) ;
-    BitcoinNodeAPI.pushTx(tx_serialized, tx_hash, function(err, data) {
-      if (err) { console.error(err); return ;}
-      console.log(data);
-    }) ;
-    done( );
-  }) ;
-});
+//     Wallet.buildPendingTransaction(toAddresses, "passwordDigest", function( pendingTransaction ) {
+//       var s = pendingTransaction.serialize()
+//       var tx_serialized = Crypto.util.bytesToHex(s);
+//       // var tx_serialized = "00000"
+//       var tx_hash = Crypto.util.bytesToHex(Crypto.SHA256(Crypto.SHA256(s, {asBytes: true}), {asBytes: true}).reverse());
+//       console.log(tx_serialized) ;
+//       BitcoinNodeAPI.pushTx(tx_serialized, tx_hash, function(err, data) {
+//         if (err) { console.error(err); return ;}
+//         console.log(data);
+//       }) ;
+//       done( );
+//     } ) ;
+//   }) ;
+// });
 });
 
 
