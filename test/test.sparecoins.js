@@ -68,7 +68,8 @@ describe("Wallet", function() {
   beforeEach(function(done) {
     testStorage.clear("wallet");
 
-    new SpareCoins.Wallet( testStorage, function(Wallet) {
+    var Wallet = new SpareCoins.Wallet( testStorage )
+    Wallet.loadData( function( ) {
       for (var i=0; i<10; ++i) {
         Wallet.generateAddress("passwordDigest");
       }
@@ -94,7 +95,8 @@ describe("Wallet", function() {
   // });
 
   it("is able to generate and save new addresses", function(done) {
-    new SpareCoins.Wallet( testStorage, function( Wallet ) {
+    var Wallet = new SpareCoins.Wallet( testStorage )
+    Wallet.loadData( function( ) {
       var address = Wallet.generateAddress("passwordDigest");
       expect(address.getPrivateKey( )).to.eq(undefined);
       expect(address.getfCryptPrivateKey( ).constructor).to.eq(String);
@@ -104,8 +106,8 @@ describe("Wallet", function() {
 
   it("able to generate the addressStrs as an array", function(done) {
     this.timeout(5000)
-    new SpareCoins.Wallet( testStorage, function( Wallet ) {
-
+    var Wallet = new SpareCoins.Wallet( testStorage )
+    Wallet.loadData( function( ) {
       expect(Wallet.getAddresses().length).to.eq(10);
 
       var addressStrs = Wallet.getAddressStrs();
