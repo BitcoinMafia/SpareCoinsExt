@@ -8,13 +8,19 @@ spApp.controller('receiveCtrl', function($scope, $rootScope) {
 		$scope.balance = $rootScope.balance
 	})
 
-	var wallet = SpareCoins.Wallet( SpareCoins.ChromeStorage )
+	var Wallet = SpareCoins.Wallet( SpareCoins.ChromeStorage, function() {
 
-	// TO DO: Should be last generated address without money
-	$scope.currentAddress = "1FYBeStNk8DNm2GcrFV5347GR8qzBNgUgi"
+		// TO DO: Should be last generated address without money
+		var addresses = Wallet.getAddressStrs()
+
+		$scope.$apply(function() {
+			var randIndex = Math.floor(Math.random() * addresses.length)
+			$scope.currentAddress = addresses[randIndex]
+		})
+	})
 
 	$scope.generateAnotherAddress = function() {
-		var addrObj = wallet.generateAddress("password")
+		var addrObj = Wallet.generateAddress("password")
 		$scope.currentAddress = addrObj.getAddress()
 	}
 
