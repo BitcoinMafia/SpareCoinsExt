@@ -2,7 +2,7 @@
 
 spApp.directive("selected", function($timeout) {
 	return function($scope, element, attrs) {
-		$timeout(function() {
+		$scope.$watch('currentAddress', function() {
 			$(element).focus()
 			$(element).select()
 		})

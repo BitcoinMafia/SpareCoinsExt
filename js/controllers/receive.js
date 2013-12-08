@@ -8,7 +8,7 @@ spApp.controller('receiveCtrl', function($scope, $rootScope) {
 		$scope.balance = $rootScope.balance
 	})
 
-	var baseURL = "http://identico.in/address/"
+	var baseURL = "http://identicoin.herokuapp.com/address/"
 
 	var Wallet = SpareCoins.Wallet(SpareCoins.ChromeStorage, function() {
 

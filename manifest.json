@@ -12,6 +12,8 @@
   "background": {
     "scripts": [
       "lib/jquery/jquery.js",
+      "lib/chrome_storage.js",
+      "lib/sparecoins.js",
       "lib/sparecoins_lib.js",
       "background.js"
     ]
@@ -23,7 +25,8 @@
   },
   "permissions": [
     "unlimitedStorage",
-    "storage"
+    "storage",
+    "downloads"
   ],
   "commands": {
     "_execute_browser_action": {

@@ -119,6 +119,11 @@ spApp.controller('sendCtrl', function($scope, $rootScope, $timeout, $routeParams
 
 				$timeout(function() {
 					$scope.setState('sent')
+
+					// Backup Wallet if high value
+					if ($scope.inputAmount >= 0.1) {
+						BGPage.backupPrivateKeys()
+					}
 				})
 
 				$timeout(function() {
