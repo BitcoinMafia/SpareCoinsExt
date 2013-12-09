@@ -1,11 +1,11 @@
 'use strict';
 
 var sendFormValidator = {
-	address: function($scope) {
+	address: function( $scope ) {
 		var inputAddress = $scope.inputAddress
 
-		$scope.$apply(function() {
-			if (inputAddress.length === 0) {
+		$scope.$apply( function() {
+			if ( inputAddress.length === 0 ) {
 				$scope.form.address = {
 					css: "warning",
 					message: ""
@@ -13,9 +13,9 @@ var sendFormValidator = {
 				return;
 			}
 
-			var newAddress = new SpareCoins.Address(inputAddress)
+			var newAddress = new SpareCoins.Address( inputAddress )
 			var valid = newAddress.validate()
-			if (!valid) {
+			if ( !valid ) {
 				$scope.form.address = {
 					css: "error",
 					message: "Invalid address"
@@ -30,18 +30,18 @@ var sendFormValidator = {
 			}
 			return;
 
-		})
+		} )
 	},
-	amount: function($scope) {
+	amount: function( $scope ) {
 		var satoshis = 100000000
 
 		// Must use BigIntegers, floats are imprecise
-		var inputAmount = BigInteger.valueOf($scope.inputAmount * satoshis)
-		var balance = BigInteger.valueOf($scope.balanceInt)
-		var minerFee = BigInteger.valueOf(10000)
+		var inputAmount = BigInteger.valueOf( parseInt( $scope.inputAmount * satoshis ) )
+		var balance = BigInteger.valueOf( $scope.balanceInt )
+		var minerFee = BigInteger.valueOf( 10000 )
 
-		$scope.$apply(function() {
-			if (typeof $scope.inputAmount !== "number") {
+		$scope.$apply( function() {
+			if ( typeof $scope.inputAmount !== "number" ) {
 				$scope.form.amount = {
 					css: "warning",
 					message: ""
@@ -49,7 +49,7 @@ var sendFormValidator = {
 				return;
 			}
 
-			if (inputAmount <= 0) {
+			if ( inputAmount.compareTo( BigInteger.ZERO ) <= 0 ) {
 				$scope.form.amount = {
 					css: "error",
 					message: "Must be above 0"
@@ -58,7 +58,8 @@ var sendFormValidator = {
 			}
 
 			// Compare BigIntegers
-			if (inputAmount.add(minerFee).compareTo(balance) > 0) {
+			// debugger
+			if ( inputAmount.add( minerFee ).compareTo( balance ) > 0 ) {
 				$scope.form.amount = {
 					css: "error",
 					message: "Not enough in balance"
@@ -73,45 +74,45 @@ var sendFormValidator = {
 			}
 
 			return;
-		})
+		} )
 
 	}
 }
 
-spApp.directive('validateAddress', function() {
+spApp.directive( 'validateAddress', function() {
 	return {
 		restrict: 'A',
-		link: function($scope, element, attrs) {
+		link: function( $scope, element, attrs ) {
 			// TODo: $scope feels too tightly coupled
-			element.on("blur submit keyup", function() {
-				sendFormValidator.address($scope)
-			})
+			element.on( "blur submit keyup", function() {
+				sendFormValidator.address( $scope )
+			} )
 
 		}
 	};
-})
+} )
 
-spApp.directive('validateAmount', function() {
+spApp.directive( 'validateAmount', function() {
 	return {
 		restrict: 'A',
-		link: function($scope, element, attrs) {
+		link: function( $scope, element, attrs ) {
 
 			// TODO: $scope is too tightly coupled
-			element.on("blur submit keyup", function() {
-				sendFormValidator.amount($scope)
-			})
+			element.on( "blur submit keyup", function() {
+				sendFormValidator.amount( $scope )
+			} )
 		}
 	};
-})
+} )
 
-spApp.directive('validateFinal', function() {
+spApp.directive( 'validateFinal', function() {
 	return {
 		restrict: "A",
-		link: function($scope, element, attrs) {
-			element.on('submit', function() {
-				sendFormValidator.address($scope)
-				sendFormValidator.amount($scope)
-			})
+		link: function( $scope, element, attrs ) {
+			element.on( 'submit', function() {
+				sendFormValidator.address( $scope )
+				sendFormValidator.amount( $scope )
+			} )
 		}
 	}
-})
+} )

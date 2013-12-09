@@ -1,28 +1,28 @@
 'use strict';
 
-spApp.controller('sendCtrl', function($scope, $rootScope, $timeout, $routeParams) {
+spApp.controller( 'sendCtrl', function( $scope, $rootScope, $timeout, $routeParams ) {
 
-	var Wallet = SpareCoins.Wallet(SpareCoins.ChromeStorage)
+	var Wallet = SpareCoins.Wallet( SpareCoins.ChromeStorage )
 
-	$rootScope.$watch('balance', function() {
+	$rootScope.$watch( 'balance', function() {
 		$scope.balanceInt = $rootScope.balanceInt
 		$scope.balance = $rootScope.balance
-	})
+	} )
 
 	$scope.setTemp = function() {
-		$scope.setState('normal')
-		var timestamp = (new Date()).getTime()
+		$scope.setState( 'normal' )
+		var timestamp = ( new Date() ).getTime()
 
-		SpareCoins.ChromeStorage.set('cache', 'timestamp', timestamp, function() {
-			SpareCoins.ChromeStorage.set('cache', 'inputAddress', $scope.inputAddress, function() {
-				SpareCoins.ChromeStorage.set('cache', 'inputAmount', $scope.inputAmount, function() {})
-			})
-		})
+		SpareCoins.ChromeStorage.set( 'cache', 'timestamp', timestamp, function() {
+			SpareCoins.ChromeStorage.set( 'cache', 'inputAddress', $scope.inputAddress, function() {
+				SpareCoins.ChromeStorage.set( 'cache', 'inputAmount', $scope.inputAmount, function() {} )
+			} )
+		} )
 
 	}
 
 	// States can be ["normal", "confirm", "sending", "sent"]
-	$scope.setState = function(state) {
+	$scope.setState = function( state ) {
 		$scope.state = state
 	}
 
@@ -30,29 +30,27 @@ spApp.controller('sendCtrl', function($scope, $rootScope, $timeout, $routeParams
 		$scope.inputAddress = ""
 		$scope.inputAmount = ""
 
-		// debugger
-
-		SpareCoins.ChromeStorage.remove('cache', "inputAddress", function() {
-			SpareCoins.ChromeStorage.remove('cache', "inputAmount", function() {})
-		})
+		SpareCoins.ChromeStorage.remove( 'cache', "inputAddress", function() {
+			SpareCoins.ChromeStorage.remove( 'cache', "inputAmount", function() {} )
+		} )
 	}
 
 	function _resetForm() {
 		$scope.form = {
 			address: {
 				css: "info",
-				example: "e.g. 1FmdeybWTUsPj3QzDw3Y2X5YZNunugpcnA",
+				example: "",
 				valid: false,
 			},
 			amount: {
 				css: "info",
-				example: "e.g. 0.001",
+				example: "0.0001 BTC in Miner Fees will be added",
 				valid: false
 			}
 		}
 	}
 
-	$scope.setState('normal')
+	$scope.setState( 'normal' )
 
 	$scope.button = {
 		normal: {
@@ -80,77 +78,79 @@ spApp.controller('sendCtrl', function($scope, $rootScope, $timeout, $routeParams
 	$scope.inputAmount = ""
 
 	var TTL = 60000
-	SpareCoins.ChromeStorage.get('cache', function(data) {
-		var currentTime = (new Date()).getTime()
-		var expiryTime = data['timestamp'] + TTL
+	SpareCoins.ChromeStorage.get( 'cache', function( data ) {
+		var currentTime = ( new Date() ).getTime()
+		var expiryTime = data[ 'timestamp' ] + TTL
 
-		if (expiryTime < currentTime) {
+		if ( expiryTime < currentTime ) {
 			return _removeTemp();
 		}
 
-		$scope.inputAddress = data["inputAddress"]
-		$scope.inputAmount = data["inputAmount"]
+		$scope.inputAddress = data[ "inputAddress" ]
+		$scope.inputAmount = data[ "inputAmount" ]
 
-	})
+	} )
 
 	$scope.submitForm = function() {
 
-		if (!$scope.form.address.valid || !$scope.form.amount.valid) return;
+		if ( !$scope.form.address.valid || !$scope.form.amount.valid ) return;
 
-		if ($scope.state === 'sending' || $scope.state === 'sent') return;
+		if ( $scope.state === 'sending' || $scope.state === 'sent' ) return;
 
-		if ($scope.state === 'normal') {
-			$scope.setState('confirm')
+		if ( $scope.state === 'normal' ) {
+			$scope.setState( 'confirm' )
 			return;
 		}
 
-		$scope.setState('sending')
+		$scope.setState( 'sending' )
 
 		var satoshis = 100000000
-		var toAddresses = [{
+		var toAddresses = [ {
 			addr: $scope.inputAddress,
-			value: BigInteger.valueOf($scope.inputAmount * satoshis)
-		}]
+			value: BigInteger.valueOf( $scope.inputAmount * satoshis )
+		} ]
 
-		Wallet.loadData(function() {
-			Wallet.buildPendingTransaction(toAddresses, "password", function(pendingTransaction) {
+		Wallet.loadData( function() {
+			Wallet.buildPendingTransaction( toAddresses, "password", function( pendingTransaction ) {
 				var s = pendingTransaction.serialize()
-				var tx_serialized = Crypto.util.bytesToHex(s);
+				var tx_serialized = Crypto.util.bytesToHex( s );
 
-				var tx_hash = Crypto.util.bytesToHex(Crypto.SHA256(Crypto.SHA256(s, {
+				var tx_hash = Crypto.util.bytesToHex( Crypto.SHA256( Crypto.SHA256( s, {
 					asBytes: true
-				}), {
+				} ), {
 					asBytes: true
-				}).reverse());
+				} ).reverse() );
 
-				console.log("tx_serialized", tx_serialized)
+				console.log( "tx_serialized", tx_serialized )
 
-				BGPage.pushTransaction(tx_serialized, tx_hash, function() {
+				BGPage.pushTransaction( tx_serialized, tx_hash, toAddresses[ 0 ].value, function() {
 					// TODO:
 					// on callback, update total balance to localStorage
 					// on callback, update address balances to localStorage
 					// on callback, update txs to localStorage
-					// on callback, change $rootScope.balance to new balance
 
-					$timeout(function() {
-						$scope.setState('sent')
+					// Update Balance after send
+					$rootScope.$apply( function() {
+						var total = ( toAddresses[ 0 ].value ).add( BigInteger.valueOf( 10000 ) )
+						$rootScope.balanceInt = $rootScope.balanceInt.subtract( total )
+						$rootScope.balance = $rootScope.balanceInt / 100000000
+					} )
 
-						// Backup Wallet if high value
-						if ($scope.inputAmount >= 0.1) {
-							BGPage.backupPrivateKeys()
-						}
-					})
+					$timeout( function() {
+						$scope.setState( 'sent' )
+					} )
 
-					$timeout(function() {
+					$timeout( function() {
 						_removeTemp();
 						_resetForm(); // hack
-						$scope.setState('normal')
-					}, 2000)
+						$scope.setState( 'normal' )
 
-				})
+					}, 2000 )
 
-			});
-		})
+				} )
+
+			} );
+		} )
 	}
 
-})
+} )

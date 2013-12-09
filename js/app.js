@@ -1,18 +1,18 @@
 'use strict';
 var BGPage = chrome.extension.getBackgroundPage();
-var spApp = angular.module('spApp', [
+var spApp = angular.module( 'spApp', [
   'ngRoute'
-])
+] )
 
 // Routes
-spApp.config(function($routeProvider) {
+spApp.config( function( $routeProvider ) {
 
-  $routeProvider.when('/', {
+  $routeProvider.when( '/', {
     resolve: {
-      authenticate: function($location, $rootScope, UserAuth) {
+      authenticate: function( $location, $rootScope, UserAuth ) {
 
-        if (UserAuth.firstTime(false)) {
-          return $location.path("/password")
+        if ( UserAuth.firstTime( false ) ) {
+          return $location.path( "/password" )
         }
 
         // TODO:
@@ -23,73 +23,73 @@ spApp.config(function($routeProvider) {
         // on callback, also update txs to localStorage
         // on callback, change $rootScope.balance to new balance
 
-        var Wallet = SpareCoins.Wallet(SpareCoins.ChromeStorage);
+        var Wallet = SpareCoins.Wallet( SpareCoins.ChromeStorage );
 
-        Wallet.loadData(function(data) {
+        Wallet.loadData( function( data ) {
           var addresses = Wallet.getAddressStrs()
 
-          BitcoinNodeAPI.multiAddr(addresses, function(err, data) {
-            if (err) {
-              throw Error(err)
+          BitcoinNodeAPI.multiAddr( addresses, function( err, data ) {
+            if ( err ) {
+              throw Error( err )
             }
 
-            $rootScope.$apply(function() {
-              $rootScope.balanceInt = data["wallet"]["final_balance"]
+            $rootScope.$apply( function() {
+              $rootScope.balanceInt = BigInteger.valueOf( data[ "wallet" ][ "final_balance" ] )
               $rootScope.balance = $rootScope.balanceInt / 100000000
 
-            })
+            } )
 
-          })
-        })
+          } )
+        } )
 
-        if (UserAuth.loggedIn(true)) {
-          return $location.path("/send")
+        if ( UserAuth.loggedIn( true ) ) {
+          return $location.path( "/send" )
         }
 
-        return $location.path("/login")
+        return $location.path( "/login" )
       }
     }
-  });
+  } );
 
-  $routeProvider.when('/login', {
+  $routeProvider.when( '/login', {
     templateUrl: 'views/login.html',
     controller: 'loginCtrl'
-  });
+  } );
 
-  $routeProvider.when('/send', {
+  $routeProvider.when( '/send', {
     templateUrl: 'views/send.html',
     controller: 'sendCtrl'
-  });
+  } );
 
-  $routeProvider.when('/receive', {
+  $routeProvider.when( '/receive', {
     templateUrl: 'views/receive.html',
     controller: 'receiveCtrl'
-  });
+  } );
 
-  $routeProvider.when('/history', {
+  $routeProvider.when( '/history', {
     templateUrl: 'views/history.html',
     controller: 'historyCtrl'
-  });
+  } );
 
-  $routeProvider.when('/all-addresses', {
+  $routeProvider.when( '/all-addresses', {
     templateUrl: 'views/all_addresses.html',
     controller: 'allAddressesCtrl'
-  });
+  } );
 
-  $routeProvider.when('/password', {
+  $routeProvider.when( '/password', {
     templateUrl: 'views/password.html',
     controller: 'passwordCtrl'
-  });
+  } );
 
-  $routeProvider.when('/backup-private-keys', {
+  $routeProvider.when( '/backup-private-keys', {
     resolve: {
-      backupPrivateKeys: function($location) {
+      backupPrivateKeys: function( $location ) {
         BGPage.backupPrivateKeys()
 
-        return $location.path("/all-addresses")
+        return $location.path( "/all-addresses" )
       }
     }
-  })
+  } )
 
   // $routeProvider.otherwise({redirectTo: '/send'});
-});
+} );

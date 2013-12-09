@@ -12,6 +12,7 @@
   "background": {
     "scripts": [
       "lib/jquery/jquery.js",
+      "lib/bitcoinjs-min.js",
       "lib/chrome_storage.js",
       "lib/sparecoins.js",
       "lib/sparecoins_lib.js",
