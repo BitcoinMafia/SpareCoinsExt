@@ -43,10 +43,7 @@ var backupPrivateKeys = function() {
 			encryptedKeysURL += escape( addresses[ i ].getfCryptPrivateKey() + "\n" )
 		}
 
-		chrome.downloads.download( {
-			url: encryptedKeysURL,
-			filename: "sparecoins_backup_" + timestamp
-		} )
+		window.open( encryptedKeysURL )
 
 	} )
 

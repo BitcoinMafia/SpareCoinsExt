@@ -48,8 +48,12 @@
 				type="submit"
 				>
 				<span>
-					{{button[state].message}}
 					<spinner waiting="state === 'sending'" size="small"></spinner>
+					{{button[state].message}}
+					<span ng-if="displaySendAmount()">
+						<i class="fa fa-bitcoin"></i>
+						{{(inputAmount + 0.0001).toFixed(4)}}
+					</span>
 				</span>
 			</button>
 		</div>

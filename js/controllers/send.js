@@ -44,7 +44,7 @@ spApp.controller( 'sendCtrl', function( $scope, $rootScope, $timeout, $routePara
 			},
 			amount: {
 				css: "info",
-				example: "0.0001 BTC Miner Fees will be added",
+				example: "(incl. 0.0001 BTC Miner Fee)",
 				valid: false
 			}
 		}
@@ -151,6 +151,12 @@ spApp.controller( 'sendCtrl', function( $scope, $rootScope, $timeout, $routePara
 
 			} );
 		} )
+	}
+
+	$scope.displaySendAmount = function() {
+		if ( $scope.state === 'normal' && $scope.inputAmount > 0 ) {
+			return true
+		}
 	}
 
 } )

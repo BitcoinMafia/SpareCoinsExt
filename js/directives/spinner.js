@@ -1,12 +1,12 @@
 'use strict';
 
-spApp.directive("spinner", function() {
+spApp.directive( "spinner", function() {
 	return {
 		restrict: "E",
 		scope: {
 			waiting: "="
 		},
-		link: function($scope, element, attrs) {
+		link: function( $scope, element, attrs ) {
 			var opts = {}
 			var defaultOpts = {
 				lines: 13,
@@ -27,7 +27,7 @@ spApp.directive("spinner", function() {
 				left: '100%'
 			};
 
-			if (attrs.size === "small") {
+			if ( attrs.size === "small" ) {
 				var small = {
 					length: 6,
 					width: 3,
@@ -35,12 +35,12 @@ spApp.directive("spinner", function() {
 					corners: 0,
 					rotate: 0,
 					color: "#fff",
-					top: "-25%",
+					top: "0%",
 					left: "30%"
 				}
 
-				opts = $.extend(defaultOpts, small)
-			} else if (attrs.size === 'medium') {
+				opts = $.extend( defaultOpts, small )
+			} else if ( attrs.size === 'medium' ) {
 				var medium = {
 					length: 6,
 					width: 2,
@@ -51,18 +51,18 @@ spApp.directive("spinner", function() {
 					left: '150%'
 				}
 
-				opts = $.extend(defaultOpts, medium)
+				opts = $.extend( defaultOpts, medium )
 			}
 
-			var spinner = new Spinner(opts)
+			var spinner = new Spinner( opts )
 
-			$scope.$watch('waiting', function(waiting) {
-				if (waiting) {
-					spinner.spin(element[0]);
+			$scope.$watch( 'waiting', function( waiting ) {
+				if ( waiting ) {
+					spinner.spin( element[ 0 ] );
 				} else {
 					spinner.stop()
 				}
-			}, true)
+			}, true )
 		}
 	}
-})
+} )
