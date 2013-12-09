@@ -132,13 +132,13 @@ describe( "Wallet", function() {
 
   it( "build a pushable transaction", function( done ) {
     this.timeout( 10000 );
-    new SpareCoins.Address( "1NJ3dRBeVnQW7Ar2J5q8SBZ3rYpLzYL6eP", "", "5Ka9r9XJvvBg8EERQ95vGsaPzAYYA4SHspxHs4KkHnxChJrmZf3" ).save( "passwordDigest", testStorage );
+    new SpareCoins.Address( "", "", "" ).save( "passwordDigest", testStorage );
 
     var Wallet = new SpareCoins.Wallet( testStorage );
     Wallet.loadData( function() {
       // TODO: write a wrapper to create toAddresses
       var toAddresses = [ {
-        addr: "1DaVAK9bbTYUb2xMALmkcFHBokDmqoihVe",
+        addr: "",
         value: BigInteger.valueOf( 1000 )
       } ];
 
