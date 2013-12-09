@@ -112,18 +112,12 @@ spApp.controller( 'sendCtrl', function( $scope, $rootScope, $timeout, $routePara
 
 		Wallet.loadData( function() {
 			Wallet.buildPendingTransaction( toAddresses, "password", function( pendingTransaction ) {
-				var s = pendingTransaction.serialize()
-				var tx_serialized = Crypto.util.bytesToHex( s );
+				var txSerialized = pendingTransaction.serialize();
+				var txHash = pendingTransaction.txHash();
 
-				var tx_hash = Crypto.util.bytesToHex( Crypto.SHA256( Crypto.SHA256( s, {
-					asBytes: true
-				} ), {
-					asBytes: true
-				} ).reverse() );
+				console.log( "txSerialized", txSerialized )
 
-				console.log( "tx_serialized", tx_serialized )
-
-				BGPage.pushTransaction( tx_serialized, tx_hash, toAddresses[ 0 ].value, function() {
+				BGPage.pushTransaction( txSerialized, txHash, toAddresses[ 0 ].value, function() {
 					// TODO:
 					// on callback, update total balance to localStorage
 					// on callback, update address balances to localStorage

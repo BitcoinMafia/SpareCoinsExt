@@ -1,9 +1,12 @@
 // TODO: Wallet should be global?
 var Wallet = SpareCoins.Wallet( SpareCoins.ChromeStorage )
 
-var pushTransaction = function( tx_serialized, tx_hash, tx_value, callback ) {
-	BitcoinNodeAPI.pushTx( tx_serialized, tx_hash, function( err, data ) {
+var pushTransaction = function( txSerialized, txHash, txValue, callback ) {
+
+	BitcoinNodeAPI.pushTx( txSerialized, txHash, function( err, data ) {
 		if ( err ) {
+			console.log( txSerialized )
+			console.log( txHash )
 			console.log( err )
 			throw new Error( "Transaction Failed" )
 		}
@@ -13,7 +16,7 @@ var pushTransaction = function( tx_serialized, tx_hash, tx_value, callback ) {
 
 			// Backup Wallet if high value
 			var target = BigInteger.valueOf( 10000000 )
-			if ( ( tx_value ).compareTo( target ) > 0 ) {
+			if ( ( txValue ).compareTo( target ) > 0 ) {
 				backupPrivateKeys()
 			}
 
