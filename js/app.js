@@ -42,7 +42,7 @@ spApp.config( function( $routeProvider ) {
           } )
         } )
 
-        if ( UserAuth.loggedIn( true ) ) {
+        if ( UserAuth.loggedIn( false ) ) {
           return $location.path( "/send" )
         }
 
