@@ -143,15 +143,8 @@ describe( "Wallet", function() {
       } ];
 
       Wallet.buildPendingTransaction( toAddresses, "passwordDigest", function( pendingTransaction ) {
-        var s = pendingTransaction.serialize()
-        var tx_serialized = Crypto.util.bytesToHex( s );
-        var tx_hash = Crypto.util.bytesToHex( Crypto.SHA256( Crypto.SHA256( s, {
-          asBytes: true
-        } ), {
-          asBytes: true
-        } ).reverse() );
 
-        alert( tx_serialized );
+        alert( pendingTransaction.serialize(), pendingTransaction.txHash() );
 
         done();
       } );
