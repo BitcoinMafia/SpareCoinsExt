@@ -130,28 +130,26 @@ describe( "Wallet", function() {
     done();
   } );
 
-  // it("build a pushable transaction", function(done) {
-  //   this.timeout(5000);
-  //   new SpareCoins.Address("1NJ3dRBeVnQW7Ar2J5q8SBZ3rYpLzYL6eP", "", "").save("passwordDigest", testStorage);
+  it( "build a pushable transaction", function( done ) {
+    this.timeout( 10000 );
+    new SpareCoins.Address( "", "", "" ).save( "passwordDigest", testStorage );
 
-  //   new SpareCoins.Wallet( testStorage, function( Wallet ) {
-  //     // TODO: write a wrapper to create toAddresses
-  //     var toAddresses = [{addr:"1DaVAK9bbTYUb2xMALmkcFHBokDmqoihVe", value: BigInteger.valueOf(1000)}] ;
+    var Wallet = new SpareCoins.Wallet( testStorage );
+    Wallet.loadData( function() {
+      // TODO: write a wrapper to create toAddresses
+      var toAddresses = [ {
+        addr: "",
+        value: BigInteger.valueOf( 1000 )
+      } ];
 
-  //     Wallet.buildPendingTransaction(toAddresses, "passwordDigest", function( pendingTransaction ) {
-  //       var s = pendingTransaction.serialize()
-  //       var tx_serialized = Crypto.util.bytesToHex(s);
-  //       // var tx_serialized = "00000"
-  //       var tx_hash = Crypto.util.bytesToHex(Crypto.SHA256(Crypto.SHA256(s, {asBytes: true}), {asBytes: true}).reverse());
-  //       console.log(tx_serialized) ;
-  //       BitcoinNodeAPI.pushTx(tx_serialized, tx_hash, function(err, data) {
-  //         if (err) { console.error(err); return ;}
-  //         console.log(data);
-  //       }) ;
-  //       done( );
-  //     } ) ;
-  //   }) ;
-  // });
+      Wallet.buildPendingTransaction( toAddresses, "passwordDigest", function( pendingTransaction ) {
+
+        alert( pendingTransaction.serialize(), pendingTransaction.txHash() );
+
+        done();
+      } );
+    } );
+  } );
 } );
 
 describe( "Address", function() {
