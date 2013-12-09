@@ -2,10 +2,9 @@
 var Wallet = SpareCoins.Wallet(SpareCoins.ChromeStorage)
 
 var pushTransaction = function(tx_serialized, tx_hash, callback) {
-	if (Wallet.getAddresses().length === 0) return;
-
 	BitcoinNodeAPI.pushTx(tx_serialized, tx_hash, function(err, data) {
-    if (err) {
+		if (err) {
+			console.log(err)
 			throw new Error("Transaction Failed")
 		}
 
@@ -13,7 +12,7 @@ var pushTransaction = function(tx_serialized, tx_hash, callback) {
 			beep()
 			callback()
 		}
-  }) ;
+	});
 }
 
 var beep = function() {

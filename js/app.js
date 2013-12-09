@@ -34,7 +34,9 @@ spApp.config(function($routeProvider) {
             }
 
             $rootScope.$apply(function() {
-              $rootScope.balance = data["wallet"]["final_balance"] / 100000000
+              $rootScope.balanceInt = data["wallet"]["final_balance"]
+              $rootScope.balance = $rootScope.balanceInt / 100000000
+
             })
 
           })

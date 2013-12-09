@@ -32,13 +32,16 @@ var sendFormValidator = {
 
 		})
 	},
-	amount: function($scope, $timeout) {
-		var inputAmount = $scope.inputAmount
-		var balance = $scope.balance
-		var minerFee = 0.0001
+	amount: function($scope) {
+		var satoshis = 100000000
+
+		// Must use BigIntegers, floats are imprecise
+		var inputAmount = BigInteger.valueOf($scope.inputAmount * satoshis)
+		var balance = BigInteger.valueOf($scope.balanceInt)
+		var minerFee = BigInteger.valueOf(10000)
 
 		$scope.$apply(function() {
-			if (typeof inputAmount !== "number") {
+			if (typeof $scope.inputAmount !== "number") {
 				$scope.form.amount = {
 					css: "warning",
 					message: ""
@@ -54,7 +57,8 @@ var sendFormValidator = {
 				return;
 			}
 
-			if ((inputAmount + minerFee) >= balance) {
+			// Compare BigIntegers
+			if (inputAmount.add(minerFee).compareTo(balance) > 0) {
 				$scope.form.amount = {
 					css: "error",
 					message: "Not enough in balance"
