@@ -44,13 +44,12 @@ spApp.config( function( $routeProvider ) {
                 $rootScope.$apply( function() {
                   $rootScope.balanceInt = BigInteger.valueOf( data[ "wallet" ][ "final_balance" ] )
                   $rootScope.balance = $rootScope.balanceInt / 100000000
-
                 } )
 
-                $rootScope.$apply( function() {
-                  return $location.path( "/send" )
-                } )
+              } )
 
+              $rootScope.$apply( function() {
+                return $location.path( "/send" )
               } )
             }
 
