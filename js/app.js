@@ -9,11 +9,9 @@ spApp.config( function( $routeProvider ) {
 
   $routeProvider.when( '/', {
     resolve: {
-      authenticate: function( $location, $rootScope, UserAuth ) {
+      authenticate: function( $location, $rootScope ) {
 
-        if ( UserAuth.firstTime( false ) ) {
-          return $location.path( "/password" )
-        }
+        var Wallet = SpareCoins.Wallet( SpareCoins.ChromeStorage );
 
         // TODO:
         // getBalance from localStorage
@@ -23,30 +21,49 @@ spApp.config( function( $routeProvider ) {
         // on callback, also update txs to localStorage
         // on callback, change $rootScope.balance to new balance
 
-        var Wallet = SpareCoins.Wallet( SpareCoins.ChromeStorage );
+        Wallet.loadData( function() {
+          var addressStrs = Wallet.getAddressStrs();
 
-        Wallet.loadData( function( data ) {
-          var addresses = Wallet.getAddressStrs()
+          // First Time Users
+          // TODO: set firstTime boolean key in ChromeStorage
 
-          BitcoinNodeAPI.multiAddr( addresses, function( err, data ) {
-            if ( err ) {
-              throw Error( err )
+          if ( addressStrs.length === 0 ) {
+            $rootScope.$apply( function() {
+              return $location.path( "/password" )
+            } )
+          }
+
+          Wallet.isAuthenticated( function( authenticated ) {
+
+            if ( authenticated === true ) {
+              BitcoinNodeAPI.multiAddr( addressStrs, function( err, data ) {
+                if ( err ) {
+                  throw Error( err )
+                }
+
+                $rootScope.$apply( function() {
+                  $rootScope.balanceInt = BigInteger.valueOf( data[ "wallet" ][ "final_balance" ] )
+                  $rootScope.balance = $rootScope.balanceInt / 100000000
+
+                } )
+
+                $rootScope.$apply( function() {
+                  return $location.path( "/send" )
+                } )
+
+              } )
             }
 
-            $rootScope.$apply( function() {
-              $rootScope.balanceInt = BigInteger.valueOf( data[ "wallet" ][ "final_balance" ] )
-              $rootScope.balance = $rootScope.balanceInt / 100000000
-
-            } )
+            if ( authenticated === false ) {
+              $rootScope.$apply( function() {
+                return $location.path( "/login" )
+              } )
+            }
 
           } )
+
         } )
 
-        if ( UserAuth.loggedIn( true ) ) {
-          return $location.path( "/send" )
-        }
-
-        return $location.path( "/login" )
       }
     }
   } );
@@ -80,6 +97,21 @@ spApp.config( function( $routeProvider ) {
     templateUrl: 'views/password.html',
     controller: 'passwordCtrl'
   } );
+
+  $routeProvider.when( '/log-out', {
+    resolve: {
+      logOut: function( $rootScope, $location ) {
+        SpareCoins.ChromeStorage.remove( "security", "passwordDigest", function() {
+
+          $rootScope.$apply( function() {
+
+            return $location.path( "/login" )
+          } )
+
+        } )
+      }
+    }
+  } )
 
   $routeProvider.when( '/backup-private-keys', {
     resolve: {

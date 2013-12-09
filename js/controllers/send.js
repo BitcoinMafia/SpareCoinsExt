@@ -111,39 +111,43 @@ spApp.controller( 'sendCtrl', function( $scope, $rootScope, $timeout, $routePara
 		} ]
 
 		Wallet.loadData( function() {
-			Wallet.buildPendingTransaction( toAddresses, "password", function( pendingTransaction ) {
-				var txSerialized = pendingTransaction.serialize();
-				var txHash = pendingTransaction.txHash();
+			SpareCoins.ChromeStorage.get( "security", function( data ) {
 
-				console.log( "txSerialized", txSerialized )
+				Wallet.buildPendingTransaction( toAddresses, data[ "passwordDigest" ], function( pendingTransaction ) {
+					var txSerialized = pendingTransaction.serialize();
+					var txHash = pendingTransaction.txHash();
 
-				BGPage.pushTransaction( txSerialized, txHash, toAddresses[ 0 ].value, function() {
-					// TODO:
-					// on callback, update total balance to localStorage
-					// on callback, update address balances to localStorage
-					// on callback, update txs to localStorage
+					console.log( "txSerialized", txSerialized )
 
-					// Update Balance after send
-					$rootScope.$apply( function() {
-						var total = ( toAddresses[ 0 ].value ).add( BigInteger.valueOf( 10000 ) )
-						$rootScope.balanceInt = $rootScope.balanceInt.subtract( total )
-						$rootScope.balance = $rootScope.balanceInt / 100000000
+					BGPage.pushTransaction( txSerialized, txHash, toAddresses[ 0 ].value, function() {
+						// TODO:
+						// on callback, update total balance to localStorage
+						// on callback, update address balances to localStorage
+						// on callback, update txs to localStorage
+
+						// Update Balance after send
+						$rootScope.$apply( function() {
+							var total = ( toAddresses[ 0 ].value ).add( BigInteger.valueOf( 10000 ) )
+							$rootScope.balanceInt = $rootScope.balanceInt.subtract( total )
+							$rootScope.balance = $rootScope.balanceInt / 100000000
+						} )
+
+						$timeout( function() {
+							$scope.setState( 'sent' )
+						} )
+
+						$timeout( function() {
+							_removeTemp();
+							_resetForm(); // hack
+							$scope.setState( 'normal' )
+
+						}, 2000 )
+
 					} )
 
-					$timeout( function() {
-						$scope.setState( 'sent' )
-					} )
+				} );
+			} )
 
-					$timeout( function() {
-						_removeTemp();
-						_resetForm(); // hack
-						$scope.setState( 'normal' )
-
-					}, 2000 )
-
-				} )
-
-			} );
 		} )
 	}
 

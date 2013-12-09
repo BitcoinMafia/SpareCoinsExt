@@ -13,6 +13,10 @@ spApp.controller( 'receiveCtrl', function( $scope, $rootScope ) {
 
 		SpareCoins.ChromeStorage.get( "cache", function( data ) {
 
+			if ( data === undefined ) {
+				return $scope.generateAnotherAddress();
+			}
+
 			$scope.$apply( function() {
 				$scope.currentAddress = data[ "currentAddress" ]
 				$scope.currentImgURL = baseURL + $scope.currentAddress
@@ -21,7 +25,7 @@ spApp.controller( 'receiveCtrl', function( $scope, $rootScope ) {
 
 		$scope.generateAnotherAddress = function() {
 
-			SpareCoins.ChromeStorage.set( "security", function( data ) {
+			SpareCoins.ChromeStorage.get( "security", function( data ) {
 				var passwordDigest = data[ "passwordDigest" ]
 
 				var addrObj = Wallet.generateAddress( passwordDigest )

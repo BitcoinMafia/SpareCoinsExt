@@ -1,13 +1,29 @@
 'use strict';
 
-spApp.controller('loginCtrl', function($scope, $location) {
+spApp.controller( 'loginCtrl', function( $scope, $location ) {
+
+	var Wallet = SpareCoins.Wallet( SpareCoins.ChromeStorage );
+	$scope.valid = "info"
 
 	$scope.submit = function() {
-		var check = this.password === "password"
+		var password = $scope.password;
+		Wallet.loadData( function() {
 
-		if (check) {
-			return $location.path("/send")
-		}
+			// Load Balance
+			var authenticated = Wallet.authenticate( password )
+
+			if ( authenticated === true ) {
+
+				$scope.$apply( function() {
+					return $location.path( "/send" );
+				} )
+			}
+
+			$scope.$apply( function() {
+				return $scope.validCSS = "error";
+			} )
+
+		} );
 	}
 
-})
+} )

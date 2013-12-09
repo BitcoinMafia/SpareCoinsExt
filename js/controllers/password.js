@@ -1,7 +1,7 @@
 'use strict';
 
 spApp.controller( 'passwordCtrl', function( $scope, $location ) {
-
+	console.log( 'passwordCtrl' )
 	$scope.submit = function() {
 
 		if ( $scope.password !== $scope.passwordConfirm ) {
@@ -11,8 +11,9 @@ spApp.controller( 'passwordCtrl', function( $scope, $location ) {
 		var passwordDigest = Crypto.SHA256( $scope.password )
 
 		SpareCoins.ChromeStorage.set( "security", "passwordDigest", passwordDigest, function() {
+
 			$scope.$apply( function() {
-				return $location.path( "/send" )
+				return $location.path( "/receive" )
 			} )
 
 		} )
