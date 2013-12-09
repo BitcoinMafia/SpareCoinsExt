@@ -201,3 +201,6 @@ menu .btn-muted {
 	margin-right: 70px;
 }
 
+.tx-unconfirmed {
+	background-color: #fcf8e3;
+}

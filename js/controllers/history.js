@@ -1,6 +1,6 @@
 'use strict';
 
-spApp.controller('historyCtrl', function($scope, $rootScope, TransactionPresenter) {
+spApp.controller( 'historyCtrl', function( $scope, $rootScope, TransactionPresenter ) {
 
 	// TODO:
 	// get allTxs from localStorage
@@ -14,23 +14,23 @@ spApp.controller('historyCtrl', function($scope, $rootScope, TransactionPresente
 	// on callback, unshift new txs to top of list
 
 	$scope.waiting = true
-	$rootScope.$watch('balance', function() {
+	$rootScope.$watch( 'balance', function() {
 		$scope.balance = $rootScope.balance
-	})
+	} )
 
-	var Wallet = SpareCoins.Wallet(SpareCoins.ChromeStorage)
+	var Wallet = SpareCoins.Wallet( SpareCoins.ChromeStorage )
 
-	Wallet.loadData(function() {
+	Wallet.loadData( function() {
 
-		var txs = new TransactionPresenter(Wallet)
+		var txs = new TransactionPresenter( Wallet )
 
-		txs.getLatest(function(data) {
+		txs.getLatest( function( data ) {
 
 			$scope.waiting = false
-			$scope.$apply(function() {
+			$scope.$apply( function() {
 				$scope.transactions = data
-			})
-		})
+			} )
+		} )
 
-	})
-})
+	} )
+} )
