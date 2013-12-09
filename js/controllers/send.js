@@ -44,7 +44,7 @@ spApp.controller( 'sendCtrl', function( $scope, $rootScope, $timeout, $routePara
 			},
 			amount: {
 				css: "info",
-				example: "0.0001 BTC in Miner Fees will be added",
+				example: "0.0001 BTC Miner Fees will be added",
 				valid: false
 			}
 		}
