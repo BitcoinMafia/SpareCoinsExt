@@ -59,8 +59,18 @@ describe( 'spApp', function() {
 
       expect( element( ".has-error" ).count() ).toBeGreaterThan( 0 )
       expect( element( ".has-info" ).count() ).toBe( 0 )
+      expect( element( "#error-message" ).text() ).toContain( "Doesn't match" )
       expect( browser().location().url() ).toContain( "password" )
       expect( browser().location().url() ).not().toContain( "receive" )
+    } )
+
+    it( "should not let your confirm if password <8 characters", function() {
+      input( 'password' ).enter( "asdf" )
+      input( 'passwordConfirm' ).enter( "asdf" )
+      element( "#password-submit" ).click()
+
+      expect( element( ".has-error" ).count() ).toBeGreaterThan( 0 )
+      expect( element( "#error-message" ).text() ).toContain( ">=8 characters" )
     } )
 
     it( 'should redirect to /send after setting correct password', function() {
@@ -84,6 +94,13 @@ describe( 'spApp', function() {
       element( "#password-submit" ).click()
       sleep( 0.2 )
     } );
+
+    it( "should not let you on /password if already signed up", function() {
+      browser().navigateTo( '/index.html#/password' );
+      sleep( 0.2 )
+      expect( browser().location().url() ).not().toContain( "password" )
+      expect( browser().location().url() ).toContain( "send" )
+    } )
 
     it( 'should have stored passwordDigest in ChromeStorage after password confirmation', function() {
       var passwordDigest = getPasswordDigest( SpareCoins.ChromeStorage );
@@ -132,6 +149,8 @@ describe( 'spApp', function() {
 
       element( "#settings" ).click()
       element( "#logout" ).click()
+      sleep( 0.2 )
+      expect( browser().location().url() ).toContain( "login" )
     } )
 
     it( 'should clear password digest after logout', function() {
@@ -141,6 +160,18 @@ describe( 'spApp', function() {
 
       var passwordDigest = getPasswordDigest( SpareCoins.ChromeStorage );
       expect( passwordDigest ).toBe( undefined )
+
+    } )
+
+    it( "should not let re login if password incorrect", function() {
+      element( "#settings" ).click()
+      element( "#logout" ).click()
+      sleep( 0.2 )
+
+      input( 'password' ).enter( "wrongthing" )
+      element( "#login-submit" ).click()
+      sleep( 0.5 )
+      expect( element( "#error-message" ).text() ).toContain( "Incorrect Password" )
 
     } )
 

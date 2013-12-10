@@ -10,14 +10,22 @@
 		</div>
 		<br>
 		<div class="tight-row">
-			<p class="text-warning">
-				Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
+			<p class="text-warning text-center">
+				Please enter your password. Your password will NOT be stored in this extension.
 			</p>
 		</div>
 		<div class="form-group has-{{validCSS}} text-center">
-		  <label class="control-label" for="inputLarge"><strong>PASSWORD: </strong></label>
-		  <input class="form-control square-input input-lg" type="password" ng-model="password">
+		  <label class="control-label" for="inputLarge">
+		  	<strong>PASSWORD: </strong>
+		  	<small id="error-message" class="light">
+		  		{{errorMessage}}
+		  	</small>
+		  </label>
+		  <input
+		  	class="form-control square-input input-lg"
+		  	type="password"
+		  	ng-model="password"
+		  	tabindex="1">
 		</div>
 		<br>
 		<div class="clean-row">

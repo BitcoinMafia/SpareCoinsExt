@@ -6,11 +6,10 @@ spApp.controller( 'loginCtrl', function( $scope, $location ) {
 	$scope.valid = "info"
 
 	$scope.submit = function() {
-		var password = $scope.password;
 		Wallet.loadData( function() {
 
 			// Load Balance
-			var authenticated = Wallet.authenticate( password )
+			var authenticated = Wallet.authenticate( $scope.password )
 
 			if ( authenticated === true ) {
 
@@ -20,7 +19,9 @@ spApp.controller( 'loginCtrl', function( $scope, $location ) {
 			}
 
 			$scope.$apply( function() {
-				return $scope.validCSS = "error";
+				$scope.errorMessage = "Incorrect Password";
+				$scope.validCSS = "error";
+				return;
 			} )
 
 		} );
