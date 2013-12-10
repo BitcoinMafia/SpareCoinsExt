@@ -16,3 +16,6 @@ This is the repo for the front end of the Chrome Extension.
  - beep.wav
  - index.html
  - manifest
+ - error.html
+ - errorListener.js
+ - error.js
