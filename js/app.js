@@ -10,7 +10,6 @@ spApp.config( function( $routeProvider ) {
   $routeProvider.when( '/', {
     resolve: {
       authenticate: function( $location, $rootScope ) {
-
         var Wallet = SpareCoins.Wallet( SpareCoins.ChromeStorage );
 
         // TODO:
@@ -24,39 +23,48 @@ spApp.config( function( $routeProvider ) {
         Wallet.loadData( function() {
           var addressStrs = Wallet.getAddressStrs();
 
+          // TODO: Extract elsewhere
+          var _loadBalance = function() {
+            BitcoinNodeAPI.multiAddr( addressStrs, function( err, data ) {
+              if ( err ) {
+                throw Error( err )
+              }
+
+              $rootScope.$apply( function() {
+                $rootScope.balanceInt = BigInteger.valueOf( data[ "wallet" ][ "final_balance" ] )
+                $rootScope.balance = $rootScope.balanceInt / 100000000
+              } )
+
+            } )
+          }
+
           // First Time Users
           // TODO: set firstTime boolean key in ChromeStorage
 
           if ( addressStrs.length === 0 ) {
             $rootScope.$apply( function() {
+
               return $location.path( "/password" )
             } )
           }
 
           Wallet.isAuthenticated( function( authenticated ) {
 
-            if ( authenticated === true ) {
-              BitcoinNodeAPI.multiAddr( addressStrs, function( err, data ) {
-                if ( err ) {
-                  throw Error( err )
-                }
+            if ( authenticated === false ) {
 
-                $rootScope.$apply( function() {
-                  $rootScope.balanceInt = BigInteger.valueOf( data[ "wallet" ][ "final_balance" ] )
-                  $rootScope.balance = $rootScope.balanceInt / 100000000
-                } )
-
+              $rootScope.$apply( function() {
+                return $location.path( "/login" )
               } )
+            }
+
+            // Entry into App
+            if ( authenticated === true ) {
+              _loadBalance()
 
               $rootScope.$apply( function() {
                 return $location.path( "/send" )
               } )
-            }
 
-            if ( authenticated === false ) {
-              $rootScope.$apply( function() {
-                return $location.path( "/login" )
-              } )
             }
 
           } )

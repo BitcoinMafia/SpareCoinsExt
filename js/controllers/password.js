@@ -13,7 +13,7 @@ spApp.controller( 'passwordCtrl', function( $scope, $location ) {
 		SpareCoins.ChromeStorage.set( "security", "passwordDigest", passwordDigest, function() {
 
 			$scope.$apply( function() {
-				return $location.path( "/receive" )
+				return $location.path( "/" )
 			} )
 
 		} )
