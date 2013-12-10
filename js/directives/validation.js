@@ -5,7 +5,7 @@ var sendFormValidator = {
 		var inputAddress = $scope.inputAddress
 
 		$scope.$apply( function() {
-			if ( inputAddress.length === 0 ) {
+			if ( inputAddress === undefined || inputAddress.length === 0 ) {
 				$scope.form.address = {
 					css: "warning",
 					message: ""

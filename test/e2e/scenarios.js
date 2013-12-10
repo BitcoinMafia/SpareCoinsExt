@@ -230,16 +230,14 @@ describe( 'spApp', function() {
       expect( element( ".has-error" ).count() ).toBe( 0 )
       input( "inputAddress" ).enter( "notAbTcAdreesszzYO!" )
       element( "#send-submit" ).click()
-      expect( element( ".has-info" ).count() ).toBe( 0 )
       expect( element( ".has-error" ).count() ).toBeGreaterThan( 0 )
     } )
 
-    iit( 'should highlight red if amount incorrect', function() {
+    it( 'should highlight red if amount incorrect', function() {
       expect( element( ".has-info" ).count() ).toBeGreaterThan( 0 )
       expect( element( ".has-error" ).count() ).toBe( 0 )
       input( "inputAmount" ).enter( 0 )
       element( "#send-submit" ).click()
-      expect( element( ".has-info" ).count() ).toBe( 0 )
       expect( element( ".has-error" ).count() ).toBeGreaterThan( 0 )
     } )
 
