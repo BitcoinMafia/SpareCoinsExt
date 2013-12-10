@@ -1,4 +1,10 @@
-// Note: This backend code base (sparecoins.js / sparecoins_lib.js / chrome_storage.js) is split into Public API and Non Public APIs. Public APIs are expected to be maintained and stayed relatively more stable. Whereas non-public APIs are considered to be private methods and may change frequently.
+// Note: This backend code base
+// (sparecoins.js / sparecoins_lib.js / chrome_storage.js)
+// is split into Public API and Non Public APIs.
+// Public APIs are expected to be maintained and
+// stayed relatively more stable.
+// Whereas non-public APIs are considered to be private methods
+// and may change frequently.
 
 var expect = chai.expect;
 
