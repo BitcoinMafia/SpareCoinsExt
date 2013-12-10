@@ -15,7 +15,7 @@ spApp.controller( 'loginCtrl', function( $scope, $location ) {
 			if ( authenticated === true ) {
 
 				$scope.$apply( function() {
-					return $location.path( "/send" );
+					return $location.path( "/" );
 				} )
 			}
 

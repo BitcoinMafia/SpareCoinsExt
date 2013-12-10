@@ -204,3 +204,9 @@ menu .btn-muted {
 .tx-unconfirmed {
 	background-color: #fcf8e3;
 }
+
+#error div {
+	word-wrap: break-word;
+	white-space: normal;
+	margin: 0 30px;
+}

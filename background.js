@@ -36,11 +36,11 @@ var backupPrivateKeys = function() {
 		var timestamp = ( new Date() ).getTime()
 
 		var addresses = Wallet.getAddresses()
-		var anchor = document.createElement( 'a' );
 
 		var encryptedKeysURL = "data:text/csv;charset=utf-8,"
 
 		encryptedKeysURL += escape( "Encrypted Privated Keys (AES)" + "\n" )
+		encryptedKeysURL += escape( "Use a SHA256 digest of your password as the encrption key" + "\n" )
 
 		for ( var i = 0; i < addresses.length; i++ ) {
 			encryptedKeysURL += escape( addresses[ i ].getfCryptPrivateKey() + "\n" )
