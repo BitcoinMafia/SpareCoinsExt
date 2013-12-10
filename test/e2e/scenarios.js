@@ -37,7 +37,7 @@ describe( 'spApp', function() {
 
     beforeEach( function() {
       browser().navigateTo( '/index.html#/' );
-      sleep( 0.1 )
+      sleep( 0.2 )
     } );
 
     it( 'should redirect to /password', function() {
@@ -67,7 +67,7 @@ describe( 'spApp', function() {
       input( 'password' ).enter( "correcthorse" )
       input( 'passwordConfirm' ).enter( "correcthorse" )
       element( "#password-submit" ).click()
-      sleep( 0.1 )
+      sleep( 0.2 )
       expect( browser().location().url() ).not().toContain( "password" )
       expect( browser().location().url() ).toContain( "receive" )
     } )
@@ -82,7 +82,7 @@ describe( 'spApp', function() {
       input( 'password' ).enter( "correcthorse" )
       input( 'passwordConfirm' ).enter( "correcthorse" )
       element( "#password-submit" ).click()
-      sleep( 0.1 )
+      sleep( 0.2 )
     } );
 
     it( 'should have stored passwordDigest in ChromeStorage after password confirmation', function() {
@@ -107,13 +107,13 @@ describe( 'spApp', function() {
 
     // TODO: How to test if same element changed? They're both futures
     it( 'should be able to generate addresses', function() {
-      sleep( 0.1 )
+      sleep( 0.2 )
       var firstAddress = element( "#current-address textarea" ).text()
       expect( firstAddress ).toMatch( /.{22,}/ )
-      sleep( 0.1 )
+      sleep( 0.2 )
       element( "#generate-address" ).click()
       var secondAddress = element( "#current-address textarea" ).text()
-      sleep( 0.1 )
+      sleep( 0.2 )
       expect( secondAddress ).toMatch( /.{22,}/ )
       expect( firstAddress ).toBe( secondAddress )
     } )
@@ -121,7 +121,7 @@ describe( 'spApp', function() {
     it( 'should be able to log out', function() {
       element( "#settings" ).click()
       element( "#logout" ).click()
-      sleep( 0.1 )
+      sleep( 0.2 )
       expect( browser().location().url() ).toContain( "login" )
     } )
 
@@ -137,7 +137,7 @@ describe( 'spApp', function() {
     it( 'should clear password digest after logout', function() {
       element( "#settings" ).click()
       element( "#logout" ).click()
-      sleep( 0.1 )
+      sleep( 0.2 )
 
       var passwordDigest = getPasswordDigest( SpareCoins.ChromeStorage );
       expect( passwordDigest ).toBe( undefined )
@@ -147,14 +147,14 @@ describe( 'spApp', function() {
     it( "should have passwordDigest on re login", function() {
       element( "#settings" ).click()
       element( "#logout" ).click()
-      sleep( 0.1 )
+      sleep( 0.2 )
 
       browser().navigateTo( "/index.html#/" );
-      sleep( 0.1 )
+      sleep( 0.2 )
       expect( browser().location().url() ).toContain( "login" )
       input( "password" ).enter( "correcthorse" )
       element( "#login-submit" ).click()
-      sleep( 0.1 )
+      sleep( 0.2 )
 
       // means it's authenticated
       expect( browser().location().url() ).toContain( "send" )
@@ -182,11 +182,11 @@ describe( 'spApp', function() {
       input( 'password' ).enter( "correcthorse" )
       input( 'passwordConfirm' ).enter( "correcthorse" )
       element( "#password-submit" ).click()
-      sleep( 0.1 )
+      sleep( 0.2 )
 
       browser().reload()
       browser().navigateTo( "/index.html#/" )
-      sleep( 0.1 )
+      sleep( 0.2 )
 
     } )
 
@@ -205,10 +205,10 @@ describe( 'spApp', function() {
       input( "inputAmount" ).enter( 0.1337 )
       // triggers validation, which stores inputs in ChromeStorage
       element( "#send-submit" ).click()
-      sleep( 0.1 )
+      sleep( 0.2 )
       browser().reload()
       browser().navigateTo( "/index.html#/" )
-      sleep( 0.1 )
+      sleep( 0.2 )
       expect( input( "inputAddress" ).val() ).toBe( "bitcoinaddress" )
       expect( input( "inputAmount" ).val() ).toBe( "0.1337" )
     } )
@@ -222,9 +222,9 @@ describe( 'spApp', function() {
       input( 'password' ).enter( "correcthorse" )
       input( 'passwordConfirm' ).enter( "correcthorse" )
       element( "#password-submit" ).click()
-      sleep( 0.1 )
+      sleep( 0.2 )
       browser().navigateTo( '/index.html#/' );
-      sleep( 0.1 )
+      sleep( 0.2 )
     } )
 
     it( "should not send if not btc address", function() {
