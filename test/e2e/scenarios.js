@@ -144,6 +144,27 @@ describe( 'spApp', function() {
 
     } )
 
+    iit( "should have passwordDigest on re login", function() {
+      element( "#settings" ).click()
+      element( "#logout" ).click()
+      sleep( 0.1 )
+
+      browser().navigateTo( "/index.html#/" );
+      sleep( 0.1 )
+      expect( browser().location().url() ).toContain( "login" )
+      input( "password" ).enter( "correcthorse" )
+      element( "#login-submit" ).click()
+      sleep( 0.1 )
+
+      // means it's authenticated
+      expect( browser().location().url() ).toContain( "send" )
+      var passwordDigest = getPasswordDigest( SpareCoins.ChromeStorage );
+      var digestCheck = Crypto.SHA256( "correcthorse" )
+
+      expect( passwordDigest ).not().toBe( undefined )
+      expect( passwordDigest ).toBe( digestCheck )
+    } )
+
     it( 'should display balance to be 0', function() {
       browser().navigateTo( '/index.html#/' );
       sleep( 1 )
