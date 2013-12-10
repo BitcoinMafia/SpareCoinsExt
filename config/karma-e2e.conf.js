@@ -9,12 +9,11 @@ module.exports = function( config ) {
     ],
 
     autoWatch: true,
-    reporters: [ 'progress', 'dots' ],
     browsers: [ 'Chrome' ],
     frameworks: [ 'ng-scenario' ],
 
     proxies: {
-      '/': 'http://localhost:8000/'
+      '/': 'chrome-extension://ghjnimnfgegdkhnncbepbgdddpkbhbjh/'
     },
     plugins: [
       'karma-junit-reporter',

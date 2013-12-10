@@ -1,7 +1,7 @@
 'use strict';
 
 spApp.controller( 'passwordCtrl', function( $scope, $location ) {
-	console.log( 'passwordCtrl' )
+
 	$scope.submit = function() {
 
 		if ( $scope.password !== $scope.passwordConfirm ) {

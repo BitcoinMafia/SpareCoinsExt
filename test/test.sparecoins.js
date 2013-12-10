@@ -6,9 +6,12 @@
 // Whereas non-public APIs are considered to be private methods
 // and may change frequently.
 
+mocha.setup( 'bdd' )
+
 var expect = chai.expect;
 
-// simulating storage so that we can run tests in the browser instead of as a chrome extension
+// simulating storage so that we can run tests
+// in the browser instead of as a chrome extension
 
 var testStorage = {
   // accepts collection, key, value string
@@ -213,3 +216,6 @@ describe( "Util", function() {
 
   } );
 } )
+
+mocha.checkLeaks();
+mocha.run();

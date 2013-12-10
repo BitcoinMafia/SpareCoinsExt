@@ -1,42 +1,95 @@
 'use strict';
 
 /* http://docs.angularjs.org/guide/dev_guide.e2e-testing */
-
-describe( 'spApp', function() {
+console.log( "starting test ..." )
+describe( 'UserAuth Scenarios', function() {
 
   beforeEach( function() {
-    // browser().navigateTo( '#/' );
-  } );
+    chrome.storage.local.clear()
+  } )
 
-  it( 'should automatically redirect to /send when loggedIn', function() {
-    var thing = true
-    console.log( thing )
-    sleep( 1 )
-    expect( thing ).toBe( true )
-    // expect( browser().location().url() ).toBe( "#/send" );
-  } );
+  describe( 'First Time User', function() {
 
-  // describe('send', function() {
+    beforeEach( function() {
+      browser().navigateTo( '/index.html#/' );
+      sleep( 1 )
+    } );
 
-  //   beforeEach(function() {
-  //     browser().navigateTo('#/send');
-  //   });
+    it( 'should redirect to /password', function() {
 
-  //   it('should render sned when user navigates to /view1', function() {
-  //     // expect(element('[ng-view] p:first').text()).toMatch(/partial for view 1/);
-  //   });
+      expect( browser().location().url() ).toContain( "password" )
 
-  // });
+    } );
 
-  // describe('history', function() {
+    it( "should not have password in Chrome Storage", function( done ) {
 
-  //   beforeEach(function() {
-  //     browser().navigateTo('#/view2');
-  //   });
+      SpareCoins.ChromeStorage.get( "security", function( data ) {
+        console.log( data )
+        // debugger
 
-  //   it('should render view2 when user navigates to /view2', function() {
-  //     expect(element('html').text()).toMatch(/send/);
-  //   });
+        if ( 1 === 0 ) {
+          throw Error( "" )
+        } else {
+          throw Error( "" )
+        }
 
-  // });
+        done()
+      } )
+
+    } )
+
+    it( 'should not let you confirm if your password confirmation doesnt match', function() {
+
+    } )
+
+    it( 'should redirect to /send after settign correct password', function() {
+
+    } )
+
+  } )
+
+  describe( 'Signed up User', function() {
+
+    beforeEach( function() {
+      browser().navigateTo( '/index.html#/' );
+    } );
+
+    it( 'should redirect to /password if first time user', function() {
+      sleep( 1 )
+      expect( browser().window().href() ).toContain( "password" )
+
+    } );
+
+    it( 'should redirect to /login if not logged in', function() {
+
+    } )
+
+    it( 'should redirect to /send if logged in', function() {
+
+    } )
+
+  } )
+
+  describe( 'First Time User', function() {
+
+    beforeEach( function() {
+      browser().navigateTo( '/index.html#/' );
+    } );
+
+    it( 'should redirect to /password if first time user', function() {
+      sleep( 1 )
+      expect( browser().window().href() ).toContain( "password" )
+
+    } );
+
+    it( 'should redirect to /login if not logged in', function() {
+
+    } )
+
+    it( 'should redirect to /send if logged in', function() {
+
+    } )
+
+  } )
+
 } );
