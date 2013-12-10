@@ -2,9 +2,11 @@
 
 spApp.controller( 'passwordCtrl', function( $scope, $location ) {
 
+	$scope.validCSS = "info"
 	$scope.submit = function() {
 
 		if ( $scope.password !== $scope.passwordConfirm ) {
+			$scope.validCSS = "error"
 			return;
 		}
 
@@ -13,7 +15,7 @@ spApp.controller( 'passwordCtrl', function( $scope, $location ) {
 		SpareCoins.ChromeStorage.set( "security", "passwordDigest", passwordDigest, function() {
 
 			$scope.$apply( function() {
-				return $location.path( "/" )
+				return $location.path( "/receive" )
 			} )
 
 		} )
