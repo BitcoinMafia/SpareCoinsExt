@@ -17,7 +17,7 @@
 		</p>
 	</div>
 	<div class="row">
-		<p class="lead text-center">
+		<p class="lead text-center" id="current-address">
 			<textarea readonly selected>{{currentAddress}}</textarea>
 		</p>
 	</div>
@@ -25,6 +25,7 @@
 		<form ng-submit="generateAnotherAddress()">
 			<input
 				class="btn btn-warning square btn-lg btn-block btn-bottom"
+				id="generate-address"
 				type="submit"
 				value="GENERATE ANOTHER ADDRESS"/>
 		</form>

@@ -1,8 +1,8 @@
-module.exports = function(config){
-    config.set({
-    basePath : '../',
+module.exports = function( config ) {
+  config.set( {
+    basePath: '../',
 
-    files : [
+    files: [
       'lib/angular/angular.js',
       'lib/angular-route/angular-route.js',
       'lib/angular-resource/angular-resource.js',
@@ -11,28 +11,29 @@ module.exports = function(config){
       'test/unit/**/*.js'
     ],
 
-    exclude : [
+    exclude: [
       'test/lib/angular/angular-loader.js',
       'test/lib/angular/*.min.js',
       'test/lib/angular/angular-scenario.js'
     ],
 
-    autoWatch : true,
+    autoWatch: true,
 
-    frameworks: ['jasmine'],
+    frameworks: [ 'jasmine' ],
 
-    browsers : ['PhantomJS'],
+    browsers: [ 'PhantomJS' ],
 
-    plugins : [
-            'karma-junit-reporter',
-            'karma-chrome-launcher',
-            'karma-phantomjs-launcher',
-            'karma-firefox-launcher',
-            'karma-jasmine'
-            ],
-    junitReporter : {
+    plugins: [
+      'karma-junit-reporter',
+      'karma-chrome-launcher',
+      'karma-phantomjs-launcher',
+      'karma-firefox-launcher',
+      'karma-jasmine'
+    ],
+    junitReporter: {
       outputFile: 'test_out/unit.xml',
       suite: 'unit'
     }
 
-})}
+  } )
+}
