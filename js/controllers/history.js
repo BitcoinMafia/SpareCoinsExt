@@ -25,7 +25,7 @@ spApp.controller( 'historyCtrl', function( $scope, $rootScope, TransactionPresen
 		var txs = new TransactionPresenter( Wallet )
 
 		txs.getLatest( function( data ) {
-
+			throw new Error( "adsf" )
 			$scope.waiting = false
 			$scope.$apply( function() {
 				$scope.transactions = data
