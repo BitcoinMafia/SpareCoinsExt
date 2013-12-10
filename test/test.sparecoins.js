@@ -79,7 +79,8 @@ describe( "Wallet", function() {
     var Wallet = new SpareCoins.Wallet( testStorage )
     Wallet.loadData( function() {
       for ( var i = 0; i < 10; ++i ) {
-        Wallet.generateAddress( "passwordDigest" );
+        var passwordDigest = Crypto.SHA256( "testPassword" );
+        Wallet.generateAddress( passwordDigest );
       }
       expect( Wallet.getAddresses().length ).to.eq( 10 );
       done();
@@ -105,7 +106,8 @@ describe( "Wallet", function() {
   it( "is able to generate and save new addresses", function( done ) {
     var Wallet = new SpareCoins.Wallet( testStorage )
     Wallet.loadData( function() {
-      var address = Wallet.generateAddress( "passwordDigest" );
+      var passwordDigest = Crypto.SHA256( "testPassword" );
+      var address = Wallet.generateAddress( passwordDigest );
       expect( address.getPrivateKey() ).to.eq( undefined );
       expect( address.getfCryptPrivateKey().constructor ).to.eq( String );
       done();
@@ -141,7 +143,8 @@ describe( "Wallet", function() {
 
   it( "build a pushable transaction", function( done ) {
     this.timeout( 10000 );
-    new SpareCoins.Address( "", "", "" ).save( "passwordDigest", testStorage );
+    var passwordDigest = Crypto.SHA256( "testPassword" );
+    new SpareCoins.Address( "", "", "" ).save( passwordDigest, testStorage );
 
     var Wallet = new SpareCoins.Wallet( testStorage );
     Wallet.loadData( function() {
@@ -151,10 +154,8 @@ describe( "Wallet", function() {
         value: BigInteger.valueOf( 1000 )
       } ];
 
-      Wallet.buildPendingTransaction( toAddresses, "passwordDigest", function( pendingTransaction ) {
-
-        alert( pendingTransaction.serialize(), pendingTransaction.txHash() );
-
+      Wallet.buildPendingTransaction( toAddresses, passwordDigest, function( pendingTransaction ) {
+        console.log( pendingTransaction.serialize(), pendingTransaction.txHash() );
         done();
       } );
     } );
@@ -178,10 +179,10 @@ describe( "Address", function() {
   it( "able to encrypt and decrypt privateKey using password digest", function( done ) {
     var newAddress = new SpareCoins.Address();
     var originalPrivateKey = newAddress.getPrivateKey();
-
-    newAddress.encrypt( "passwordDigest" );
+    var passwordDigest = Crypto.SHA256( "testPassword" );
+    newAddress.encrypt( passwordDigest );
     expect( newAddress.getPrivateKey() ).to.eq( undefined );
-    newAddress.decrypt( "passwordDigest" );
+    newAddress.decrypt( passwordDigest );
     expect( newAddress.getPrivateKey() ).to.eq( originalPrivateKey );
     done();
   } );
@@ -215,7 +216,44 @@ describe( "Util", function() {
   it( "sums Unspents", function() {
 
   } );
-} )
+} );
+
+describe( "Authentication", function() {
+  it( "isAuthenticated checks for the presence of passwordDigest", function( done ) {
+    testStorage.clear( "security" );
+    var Wallet = new SpareCoins.Wallet( testStorage )
+    // Test 1
+    Wallet.isAuthenticated( function( authenticated ) {
+      expect( authenticated ).to.eq( false );
+
+      // Test 2
+      testStorage.clear( "security" );
+      testStorage.set( "security", "passwordDigest", "123" )
+
+      Wallet = new SpareCoins.Wallet( testStorage )
+      Wallet.isAuthenticated( function( authenticated ) {
+        expect( authenticated ).to.eq( true );
+        done();
+      } );
+    } );
+
+  } );
+
+  it( "authenticate tries to decrypt an address and returns true if successful", function( done ) {
+    testStorage.clear( "wallet" );
+    var Wallet = new SpareCoins.Wallet( testStorage )
+    var passwordDigest = Crypto.SHA256( "testPassword" );
+    var address = Wallet.generateAddress( passwordDigest );
+    Wallet.loadData( function() {
+      expect( Wallet.authenticate( "wrongPassword" ) ).to.eq( false );
+    } );
+    var Wallet = new SpareCoins.Wallet( testStorage )
+    Wallet.loadData( function() {
+      expect( Wallet.authenticate( "testPassword" ) ).to.eq( true );
+      done();
+    } );
+  } );
+} );
 
 mocha.checkLeaks();
 mocha.run();
