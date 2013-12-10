@@ -4,6 +4,12 @@ var spApp = angular.module( 'spApp', [
   'ngRoute'
 ] )
 
+spApp.factory( '$exceptionHandler', function() {
+  return function( exception, cause ) {
+    throw exception;
+  };
+} );
+
 // Routes
 spApp.config( function( $routeProvider ) {
 
