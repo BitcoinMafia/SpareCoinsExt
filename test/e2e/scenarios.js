@@ -73,7 +73,7 @@ describe( 'spApp', function() {
       expect( element( "#error-message" ).text() ).toContain( ">=8 characters" )
     } )
 
-    iit( 'should not let you confirm if password is undefined', function() {
+    it( 'should not let you confirm if password is undefined', function() {
       element( "#password-submit" ).click()
 
       expect( element( ".has-error" ).count() ).toBeGreaterThan( 0 )
