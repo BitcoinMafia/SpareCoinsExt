@@ -17,7 +17,7 @@ spApp.controller( 'passwordCtrl', function( $scope, $location ) {
 	$scope.validCSS = "info"
 	$scope.submit = function() {
 
-		if ( $scope.password.length < 8 ) {
+		if ( $scope.password === undefined || $scope.password.length < 8 ) {
 			$scope.errorMessage = "Must be >=8 characters"
 			$scope.validCSS = "error"
 			return;

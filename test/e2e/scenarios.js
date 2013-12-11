@@ -64,9 +64,16 @@ describe( 'spApp', function() {
       expect( browser().location().url() ).not().toContain( "receive" )
     } )
 
-    it( "should not let your confirm if password <8 characters", function() {
+    it( "should not let you confirm if password <8 characters", function() {
       input( 'password' ).enter( "asdf" )
       input( 'passwordConfirm' ).enter( "asdf" )
+      element( "#password-submit" ).click()
+
+      expect( element( ".has-error" ).count() ).toBeGreaterThan( 0 )
+      expect( element( "#error-message" ).text() ).toContain( ">=8 characters" )
+    } )
+
+    iit( 'should not let you confirm if password is undefined', function() {
       element( "#password-submit" ).click()
 
       expect( element( ".has-error" ).count() ).toBeGreaterThan( 0 )
