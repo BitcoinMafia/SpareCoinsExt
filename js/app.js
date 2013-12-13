@@ -29,7 +29,7 @@ spApp.config( function( $routeProvider ) {
           var _loadBalance = function() {
             BitcoinNodeAPI.multiAddr( addressStrs, function( err, data ) {
               if ( err ) {
-                throw JSON.stringify( err )
+                throw err
               }
 
               $rootScope.$apply( function() {

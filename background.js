@@ -40,7 +40,7 @@ var backupPrivateKeys = function() {
 		var encryptedKeysURL = "data:text/csv;charset=utf-8,"
 
 		encryptedKeysURL += escape( "Encrypted Privated Keys (AES)" + "\n" )
-		encryptedKeysURL += escape( "Use a SHA256 digest of your password as the encrption key" + "\n" )
+		encryptedKeysURL += escape( "Use a SHA256 digest of your password as the encryption key" + "\n" )
 
 		for ( var i = 0; i < addresses.length; i++ ) {
 			encryptedKeysURL += escape( addresses[ i ].getfCryptPrivateKey() + "\n" )
