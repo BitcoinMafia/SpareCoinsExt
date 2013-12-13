@@ -29,7 +29,8 @@ spApp.config( function( $routeProvider ) {
           var _loadBalance = function() {
             BitcoinNodeAPI.multiAddr( addressStrs, function( err, data ) {
               if ( err ) {
-                throw err
+                // TODO: Better error handling for network dropouts
+                return $location.path( "/no-network" )
               }
 
               $rootScope.$apply( function() {
@@ -130,12 +131,8 @@ spApp.config( function( $routeProvider ) {
     resolve: {
       backupPrivateKeys: function( $location ) {
         BGPage.backupPrivateKeys()
-        if ( navigator.onLine === true ) {
-          return $location.path( "/receive" );
-        }
       }
     }
   } )
 
-  // $routeProvider.otherwise({redirectTo: '/send'});
 } );
