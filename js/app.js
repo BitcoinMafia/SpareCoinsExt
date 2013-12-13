@@ -42,11 +42,13 @@ spApp.config( function( $routeProvider ) {
 
           // First Time Users
           // TODO: set firstTime boolean key in ChromeStorage
+
           if ( addressStrs.length === 0 ) {
             $rootScope.$apply( function() {
 
               return $location.path( "/password" )
             } )
+            return;
           }
 
           Wallet.isAuthenticated( function( authenticated ) {
