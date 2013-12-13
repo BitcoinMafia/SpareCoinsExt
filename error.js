@@ -15,6 +15,6 @@ document.getElementById( "lineNumber" ).innerHTML = "Line: " + lineNumber;
 var githubLink = document.getElementById( "githubLink" )
 
 var githubBase = "https://github.com/BitcoinMafia/SpareCoinsExt/issues/new?"
-var githubIssueLink = githubBase + "title=CRITICAL+BUG&body=" + message + "%0A%0A" + url + "%0A%0A" + lineNumber
+var githubIssueLink = githubBase + "title=BUG&body=" + message + "%0A%0A" + url + "%0A%0A" + lineNumber
 
 githubLink.href = githubIssueLink;
